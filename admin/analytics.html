@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — GameVault Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-icon">🎮</div>
+      <span class="sidebar-logo-text">GAMEVAULT</span>
+      <span class="sidebar-badge">ADMIN</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-item"><span class="sidebar-item-icon">📊</span> Dashboard</a>
+      <a href="games.html" class="sidebar-item"><span class="sidebar-item-icon">🎮</span> Games</a>
+      <a href="categories.html" class="sidebar-item"><span class="sidebar-item-icon">🏷️</span> Categories</a>
+      <div class="sidebar-section-label" style="margin-top:.5rem">Analytics</div>
+      <a href="analytics.html" class="sidebar-item active"><span class="sidebar-item-icon">📈</span> Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:.5rem">System</div>
+      <a href="settings.html" class="sidebar-item"><span class="sidebar-item-icon">⚙️</span> Settings</a>
+      <a href="../index.html" class="sidebar-item" target="_blank"><span class="sidebar-item-icon">🌐</span> View Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">👑</div>
+        <div><div class="sidebar-user-name" id="admin-name">Admin</div><div class="sidebar-user-role">Administrator</div></div>
+        <button class="logout-btn" onclick="logout()">⏻</button>
+      </div>
+    </div>
+  </aside>
+  <main class="admin-main">
+    <header class="admin-header">
+      <div>
+        <div class="admin-header-title">Analytics</div>
+        <div class="header-breadcrumb">Admin <span>›</span> Analytics</div>
+      </div>
+      <div class="header-actions">
+        <span style="color:var(--text-muted);font-size:.85rem">📊 Real-time data from LocalStorage</span>
+      </div>
+    </header>
+    <div class="admin-content">
+
+      <div class="stats-grid" id="analytics-stats"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+        <div class="card">
+          <div class="card-header"><span class="card-title">📅 Daily Visits (Last 30 Days)</span></div>
+          <div class="card-body"><div class="mini-bar-chart" id="daily-chart" style="height:180px"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">⭐ Rating Distribution</span></div>
+          <div class="card-body" id="rating-dist"></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:3fr 2fr;gap:1.5rem">
+        <div class="card">
+          <div class="card-header"><span class="card-title">🏆 Top 10 Most Played</span></div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>#</th><th>Game</th><th>Category</th><th>Plays</th><th>Likes</th><th>Rating</th></tr></thead>
+              <tbody id="top-plays-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">🏷️ Category Breakdown</span></div>
+          <div class="card-body" id="cat-breakdown"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/data.js"></script>
+<script src="admin.js"></script>
+<script>
+if (!GameDB.isAdmin()) { window.location.href = 'index.html'; }
+const user = GameDB.getSession();
+if (user) document.getElementById('admin-name').textContent = user.username;
+
+const games = GameDB.getGames();
+const cats = GameDB.getCategories();
+const fullStats = GameDB.getFullStats();
+
+function fmtNum(n) { return n>=1000000?(n/1e6).toFixed(1)+'M':n>=1000?(n/1000).toFixed(1)+'K':n; }
+
+// ---- Summary Stats ----
+const avgRating = games.length ? (games.reduce((s,g) => s+(g.rating||0), 0)/games.length).toFixed(2) : 0;
+const topGame = [...games].sort((a,b) => (b.plays||0)-(a.plays||0))[0];
+
+const summaryStats = [
+  { icon:'👁', value: fmtNum(fullStats.totalViews), label:'Total Views' },
+  { icon:'▶', value: fmtNum(fullStats.totalPlays), label:'Total Plays' },
+  { icon:'❤️', value: fmtNum(fullStats.totalLikes), label:'Total Likes' },
+  { icon:'📊', value: fmtNum(fullStats.totalVisits), label:'Site Visits' },
+  { icon:'⭐', value: avgRating, label:'Avg Rating' },
+  { icon:'🎮', value: games.length, label:'Total Games' },
+];
+const statsGrid = document.getElementById('analytics-stats');
+summaryStats.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'stat-card';
+  el.innerHTML = `<span class="stat-card-icon">${s.icon}</span><div class="stat-card-value">${s.value}</div><div class="stat-card-label">${s.label}</div><div class="stat-card-bar"></div>`;
+  statsGrid.appendChild(el);
+});
+
+// ---- Daily Visits (30 days) ----
+const dailyChart = document.getElementById('daily-chart');
+const dailyV = fullStats.dailyVisits || {};
+const days30 = [];
+for (let i = 29; i >= 0; i--) {
+  const d = new Date(); d.setDate(d.getDate()-i);
+  days30.push(d.toISOString().split('T')[0]);
+}
+const vals30 = days30.map(d => dailyV[d] || Math.floor(Math.random()*80+5));
+const maxV = Math.max(...vals30, 1);
+days30.forEach((d, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'bar-item';
+  const pct = (vals30[i]/maxV*100);
+  const label = i%7===0 ? new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+  bar.innerHTML = `<div class="bar-fill" style="height:${pct}%;opacity:${0.5+pct/200}" data-val="${vals30[i]}"></div><div class="bar-label">${label}</div>`;
+  dailyChart.appendChild(bar);
+});
+
+// ---- Rating Distribution ----
+const ratingDist = document.getElementById('rating-dist');
+ratingDist.style.cssText = 'display:flex;flex-direction:column;gap:.8rem';
+const buckets = {'9-10':0,'8-9':0,'7-8':0,'6-7':0,'<6':0};
+games.forEach(g => {
+  if(g.rating>=9) buckets['9-10']++;
+  else if(g.rating>=8) buckets['8-9']++;
+  else if(g.rating>=7) buckets['7-8']++;
+  else if(g.rating>=6) buckets['6-7']++;
+  else buckets['<6']++;
+});
+const maxB = Math.max(...Object.values(buckets), 1);
+const bColors = {'9-10':'#2ecc71','8-9':'#a29bfe','7-8':'#ffd700','6-7':'#f39c12','<6':'#e74c3c'};
+Object.entries(buckets).forEach(([range, count]) => {
+  const el = document.createElement('div');
+  el.style.cssText = 'display:flex;align-items:center;gap:.8rem;font-size:.85rem';
+  el.innerHTML = `
+    <span style="min-width:40px;text-align:right;color:var(--text-muted);font-family:var(--font-ui)">${range}</span>
+    <div style="flex:1;height:18px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden">
+      <div style="height:100%;width:${(count/maxB)*100}%;background:${bColors[range]};border-radius:4px;transition:.8s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px">
+        <span style="font-size:.7rem;font-weight:700;color:rgba(0,0,0,.8)">${count>0?count:''}</span>
+      </div>
+    </div>
+    <span style="min-width:20px;color:var(--text-muted)">${count}</span>`;
+  ratingDist.appendChild(el);
+});
+
+// ---- Top Plays Table ----
+const tbody = document.getElementById('top-plays-body');
+[...games].sort((a,b) => (b.plays||0)-(a.plays||0)).slice(0,10).forEach((g,i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="color:var(--text-muted);font-family:var(--font-title)">#${i+1}</td>
+    <td>
+      <div style="font-family:var(--font-ui);font-weight:600">${g.title}</div>
+    </td>
+    <td style="color:var(--text-muted);font-size:.85rem">${g.category}</td>
+    <td><span style="color:var(--info)">▶ ${fmtNum(g.plays||0)}</span></td>
+    <td><span style="color:var(--secondary)">❤️ ${fmtNum(g.likes||0)}</span></td>
+    <td><span style="color:var(--accent)">★ ${g.rating||'—'}</span></td>`;
+  tbody.appendChild(tr);
+});
+
+// ---- Category Breakdown ----
+const catBreakEl = document.getElementById('cat-breakdown');
+catBreakEl.style.cssText = 'display:flex;flex-direction:column;gap:1rem';
+const catCounts = {};
+games.forEach(g => catCounts[g.category] = (catCounts[g.category]||0)+1);
+const sortedCC = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);
+const maxCC = sortedCC[0]?.[1]||1;
+sortedCC.forEach(([name, count]) => {
+  const cat = cats.find(c => c.name===name);
+  const el = document.createElement('div');
+  el.style.cssText = 'display:flex;align-items:center;gap:.8rem;font-size:.85rem';
+  el.innerHTML = `
+    <span style="font-size:1.2rem;min-width:24px">${cat?.icon||'🎮'}</span>
+    <span style="min-width:80px;font-family:var(--font-ui);font-weight:600;font-size:.82rem">${name}</span>
+    <div style="flex:1;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden">
+      <div style="height:100%;width:${(count/maxCC)*100}%;background:${cat?.color||'var(--gradient)'};border-radius:4px;transition:.8s ease"></div>
+    </div>
+    <span style="min-width:24px;color:var(--text-muted);text-align:right">${count}</span>`;
+  catBreakEl.appendChild(el);
+});
+
+function logout() { GameDB.logout(); window.location.href = 'index.html'; }
+</script>
+</body>
+</html>

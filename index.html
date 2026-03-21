@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Games on Lagged.com - Play Now</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f12;
+            color: #fff;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        .header {
+            background: #1a1a1f;
+            border-bottom: 1px solid #2a2a32;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ff6b35;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-sub {
+            font-size: 12px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2a2a32;
+            border: none;
+            color: #888;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .menu-btn span {
+            width: 22px;
+            height: 2px;
+            background: #888;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover span {
+            background: #ff6b35;
+        }
+
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 200;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 120px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .search-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .search-input-wrap {
+            position: relative;
+        }
+
+        .search-input-wrap input {
+            width: 100%;
+            padding: 20px 25px;
+            padding-left: 55px;
+            font-size: 20px;
+            font-family: inherit;
+            background: #1a1a1f;
+            border: 2px solid #333;
+            border-radius: 16px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-wrap input:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .search-input-wrap::before {
+            content: "🔍";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+
+        .search-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #333;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Game Section */
+        .game-section {
+            margin-bottom: 35px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .section-link {
+            font-size: 13px;
+            color: #ff6b35;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Horizontal Scroll List */
+        .game-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .game-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .game-scroll::-webkit-scrollbar-track {
+            background: #2a2a32;
+            border-radius: 3px;
+        }
+
+        .game-scroll::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 3px;
+        }
+
+        .game-scroll::-webkit-scrollbar-thumb:hover {
+            background: #ff6b35;
+        }
+
+        /* Game Card - Compact Horizontal */
+        .game-card {
+            flex-shrink: 0;
+            width: 180px;
+            scroll-snap-align: start;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #2a2a32;
+        }
+
+        .game-card-info {
+            padding: 10px 0;
+        }
+
+        .game-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .game-card-tag {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tag-new {
+            background: #22c55e;
+            color: white;
+        }
+
+        .tag-hot {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .tag-top {
+            background: #eab308;
+            color: #000;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .category-card {
+            background: #1a1a1f;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #2a2a32;
+        }
+
+        .category-card:hover {
+            background: #2a2a32;
+            border-color: #ff6b35;
+            transform: translateY(-3px);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff6b35, #ff3d3d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .category-info h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .category-info span {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a0d;
+            border-top: 1px solid #1a1a1f;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-brand .logo {
+            font-size: 28px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-brand p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #666;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1a1a1f;
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 13px;
+        }
+
+        /* Game Modal */
+        .game-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .game-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .game-modal-content {
+            background: #1a1a1f;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .game-modal.active .game-modal-content {
+            transform: scale(1);
+        }
+
+        .modal-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            background: #2a2a32;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .modal-desc {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35, #ff3d3d);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,107,53,0.4);
+        }
+
+        .btn-secondary {
+            background: #2a2a32;
+            color: #888;
+        }
+
+        .btn-secondary:hover {
+            background: #3a3a42;
+            color: white;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #333;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Auth Buttons */
+        .auth-btn {
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .auth-btn.login {
+            background: transparent;
+            color: #888;
+        }
+
+        .auth-btn.login:hover {
+            color: #ff6b35;
+        }
+
+        .auth-btn.signup {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .auth-btn.signup:hover {
+            background: #e55a2b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner {
+                padding: 0 15px;
+            }
+            
+            .logo-sub {
+                display: none;
+            }
+            
+            .main {
+                padding: 15px;
+            }
+            
+            .game-card {
+                width: 150px;
+            }
+            
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-card {
+                width: 130px;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-top-color: #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo-area">
+                <a href="#" class="logo">Lagged</a>
+                <span class="logo-sub">Free Online Games</span>
+            </div>
+            <div class="header-actions">
+                <button class="search-btn" id="searchBtn">🔍</button>
+                <button class="auth-btn login" id="loginBtn">Log In</button>
+                <button class="auth-btn signup" id="signupBtn">Sign Up</button>
+                <div class="menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <button class="search-close" id="searchClose">✕</button>
+        <div class="search-container">
+            <div class="search-input-wrap">
+                <input type="text" placeholder="Search games..." id="searchInput" autofocus>
+            </div>
+            <div id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- New Games -->
+        <section class="game-section">
+            <div class="section-header">
+                <h2 class="section-title">New Games</h2>
+                <a href="#" class="section-link">View more ›</a>
+            </div>
+            <div class="game-scroll" id="newGames">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Only on Lagged -->
+        <section class="game-section">
+            <div class="section-header">
+                <h2 class="section-title">Only on Lagged.com</h2>
+                <a href="#" class="section-link">View more ›</a>
+            </div>
+            <div class="game-scroll" id="laggedExclusive">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Games with Achievements -->
+        <section class="game-section">
+            <div class="section-header">
+                <h2 class="section-title">Games with Achievements</h2>
+                <a href="#" class="section-link">View more ›</a>
+            </div>
+            <div class="game-scroll" id="achievementGames">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Popular Games -->
+        <section class="game-section">
+            <div class="section-header">
+                <h2 class="section-title">Popular Games</h2>
+                <a href="#" class="section-link">View more ›</a>
+            </div>
+            <div class="game-scroll" id="popularGames">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Game Categories -->
+        <section class="game-section">
+            <div class="section-header">
+                <h2 class="section-title">Game Categories</h2>
+                <a href="#" class="section-link">View all ›</a>
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- You Might Like -->
+        <section class="game-section">
+            <div class="section-header">
+                <h2 class="section-title">Games You Might Like</h2>
+            </div>
+            <div class="game-scroll" id="recommendedGames">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo">Lagged</a>
+                    <p>The home of over 5,000 free online games. Play the best casual games, arcade games, puzzle games, and more with friends!</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Games</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Action Games</a></li>
+                        <li><a href="#">Arcade Games</a></li>
+                        <li><a href="#">Puzzle Games</a></li>
+                        <li><a href="#">Racing Games</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Lagged.com. All rights reserved.</span>
+                <span>Made with ❤️ for gamers worldwide</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Game Modal -->
+    <div class="game-modal" id="gameModal">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div class="game-modal-content">
+            <img class="modal-img" id="modalImg" src="" alt="">
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="modal-meta">
+                    <span id="modalCategory"></span>
+                    <span>👁️ <span id="modalPlays">0</span> plays</span>
+                </div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="playBtn">▶ Play Game</button>
+                    <button class="btn btn-secondary" id="likeBtn">🤍 Like</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/data.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initSite();
+        });
+
+        function initSite() {
+            renderNewGames();
+            renderLaggedExclusive();
+            renderAchievementGames();
+            renderPopularGames();
+            renderCategories();
+            renderRecommended();
+            setupEventListeners();
+        }
+
+        // Create Game Card HTML
+        function createGameCard(game, showTag = false) {
+            let tag = '';
+            if (showTag) {
+                if (game.isNew) tag = '<span class="game-card-tag tag-new">New</span>';
+                else if (game.isHot) tag = '<span class="game-card-tag tag-hot">Hot</span>';
+                else if (game.isTop) tag = '<span class="game-card-tag tag-top">Top</span>';
+            }
+            
+            return `
+                <div class="game-card" data-game-id="${game.id}">
+                    <img class="game-card-img" src="${game.thumbnail}" alt="${game.title}"
+                         onerror="this.src='https://placehold.co/360x270/2a2a32/666?text=${encodeURIComponent(game.title)}'">
+                    <div class="game-card-info">
+                        <div class="game-card-title">${game.title}</div>
+                        <div class="game-card-meta">
+                            ${tag}
+                            <span>${formatNumber(game.plays)} plays</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Format Number
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Render Functions
+        function renderNewGames() {
+            const container = document.getElementById('newGames');
+            const games = GameDB.getGames().filter(g => g.isNew).slice(0, 8);
+            container.innerHTML = games.map(g => createGameCard(g, true)).join('');
+        }
+
+        function renderLaggedExclusive() {
+            const container = document.getElementById('laggedExclusive');
+            const games = GameDB.getGames().filter(g => g.isHot).slice(0, 8);
+            container.innerHTML = games.map(g => createGameCard(g, true)).join('');
+        }
+
+        function renderAchievementGames() {
+            const container = document.getElementById('achievementGames');
+            const games = GameDB.getGames().filter(g => g.isTop).slice(0, 8);
+            container.innerHTML = games.map(g => createGameCard(g, true)).join('');
+        }
+
+        function renderPopularGames() {
+            const container = document.getElementById('popularGames');
+            const games = GameDB.getGames().sort((a, b) => b.plays - a.plays).slice(0, 12);
+            container.innerHTML = games.map(g => createGameCard(g)).join('');
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoryGrid');
+            const categories = [
+                { name: 'Puzzle Games', icon: '🧩', count: 3205, id: 'puzzle' },
+                { name: 'Arcade Games', icon: '🕹️', count: 2213, id: 'arcade' },
+                { name: 'Action Games', icon: '🎮', count: 1856, id: 'action' },
+                { name: 'Racing Games', icon: '🏎️', count: 660, id: 'racing' },
+                { name: 'Shooting Games', icon: '🎯', count: 892, id: 'shooting' },
+                { name: 'Sports Games', icon: '⚽', count: 743, id: 'sports' },
+                { name: '.io Games', icon: '🔵', count: 567, id: 'io' },
+                { name: 'Adventure Games', icon: '🗺️', count: 1234, id: 'adventure' },
+                { name: 'Two Player Games', icon: '👥', count: 391, id: 'action' },
+                { name: 'Girls Games', icon: '👧', count: 458, id: 'girls' }
+            ];
+            
+            container.innerHTML = categories.map(cat => `
+                <a href="#" class="category-card" data-category="${cat.id}">
+                    <div class="category-icon">${cat.icon}</div>
+                    <div class="category-info">
+                        <h4>${cat.name}</h4>
+                        <span>${cat.count.toLocaleString()} games</span>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function renderRecommended() {
+            const container = document.getElementById('recommendedGames');
+            const shuffled = [...GameDB.getGames()].sort(() => Math.random() - 0.5).slice(0, 12);
+            container.innerHTML = shuffled.map(g => createGameCard(g)).join('');
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchBtn').addEventListener('click', openSearch);
+            document.getElementById('searchClose').addEventListener('click', closeSearch);
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            document.getElementById('searchModal').addEventListener('click', (e) => {
+                if (e.target.id === 'searchModal') closeSearch();
+            });
+
+            // Game Cards
+            document.addEventListener('click', (e) => {
+                const card = e.target.closest('.game-card');
+                if (card) {
+                    const gameId = parseInt(card.dataset.gameId);
+                    openGameModal(gameId);
+                }
+            });
+
+            // Modal
+            document.getElementById('modalClose').addEventListener('click', closeGameModal);
+            document.getElementById('gameModal').addEventListener('click', (e) => {
+                if (e.target.id === 'gameModal') closeGameModal();
+            });
+
+            // Play & Like
+            document.getElementById('playBtn').addEventListener('click', () => {
+                const gameId = parseInt(document.getElementById('playBtn').dataset.gameId);
+                const game = GameDB.getGameById(gameId);
+                if (game) {
+                    GameDB.incrementPlays(gameId);
+                    alert(`🎮 Starting ${game.title}...\n\nThis would launch the game!`);
+                }
+            });
+
+            document.getElementById('likeBtn').addEventListener('click', () => {
+                const gameId = parseInt(document.getElementById('likeBtn').dataset.gameId);
+                GameDB.toggleLike(gameId);
+                const isLiked = GameDB.isLiked(gameId);
+                document.getElementById('likeBtn').textContent = isLiked ? '❤️ Liked' : '🤍 Like';
+            });
+
+            // Category Cards
+            document.getElementById('categoryGrid').addEventListener('click', (e) => {
+                const card = e.target.closest('.category-card');
+                if (card) {
+                    e.preventDefault();
+                    const category = card.dataset.category;
+                    filterByCategory(category);
+                }
+            });
+
+            // Auth
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                alert('Login functionality would open here. Demo: admin / admin123');
+            });
+            document.getElementById('signupBtn').addEventListener('click', () => {
+                alert('Sign up functionality would open here.');
+            });
+
+            // Keyboard
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                    closeGameModal();
+                }
+                if (e.key === '/' && !e.target.matches('input')) {
+                    e.preventDefault();
+                    openSearch();
+                }
+            });
+        }
+
+        // Search
+        function openSearch() {
+            document.getElementById('searchModal').classList.add('active');
+            document.getElementById('searchInput').focus();
+        }
+
+        function closeSearch() {
+            document.getElementById('searchModal').classList.remove('active');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').innerHTML = '';
+        }
+
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase();
+            const results = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                results.innerHTML = '';
+                return;
+            }
+            
+            const filtered = GameDB.getGames().filter(g => 
+                g.title.toLowerCase().includes(query) ||
+                g.category.toLowerCase().includes(query)
+            ).slice(0, 8);
+            
+            results.innerHTML = filtered.map(game => `
+                <div class="game-card" data-game-id="${game.id}" style="margin-top: 15px;">
+                    <img class="game-card-img" src="${game.thumbnail}" alt="${game.title}"
+                         onerror="this.src='https://placehold.co/360x270/2a2a32/666?text=${encodeURIComponent(game.title)}'">
+                    <div class="game-card-info">
+                        <div class="game-card-title">${game.title}</div>
+                        <div class="game-card-meta">
+                            <span>${formatNumber(game.plays)} plays</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<p style="color:#888;text-align:center;padding:30px;">No games found</p>';
+        }
+
+        // Category Filter
+        function filterByCategory(category) {
+            const sections = document.querySelectorAll('.game-section');
+            sections.forEach(section => {
+                if (section.id === 'categoryGrid' || section.id === 'categoryGrid'.replace('Grid', 'Grid')) return;
+                const cards = section.querySelectorAll('.game-card');
+                cards.forEach(card => {
+                    const gameId = parseInt(card.dataset.gameId);
+                    const game = GameDB.getGameById(gameId);
+                    if (game.category === category || category === 'all') {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Game Modal
+        function openGameModal(gameId) {
+            const game = GameDB.getGameById(gameId);
+            if (!game) return;
+            
+            document.getElementById('modalImg').src = game.thumbnail;
+            document.getElementById('modalTitle').textContent = game.title;
+            document.getElementById('modalCategory').textContent = `${game.categoryIcon} ${game.category}`;
+            document.getElementById('modalPlays').textContent = formatNumber(game.plays);
+            document.getElementById('modalDesc').textContent = game.description;
+            
+            document.getElementById('playBtn').dataset.gameId = gameId;
+            document.getElementById('likeBtn').dataset.gameId = gameId;
+            
+            const isLiked = GameDB.isLiked(gameId);
+            document.getElementById('likeBtn').textContent = isLiked ? '❤️ Liked' : '🤍 Like';
+            
+            document.getElementById('gameModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGameModal() {
+            document.getElementById('gameModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>

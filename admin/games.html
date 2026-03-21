@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games — GameVault Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-icon">🎮</div>
+      <span class="sidebar-logo-text">GAMEVAULT</span>
+      <span class="sidebar-badge">ADMIN</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-item"><span class="sidebar-item-icon">📊</span> Dashboard</a>
+      <a href="games.html" class="sidebar-item active"><span class="sidebar-item-icon">🎮</span> Games <span class="sidebar-item-badge" id="sb-games-count">0</span></a>
+      <a href="categories.html" class="sidebar-item"><span class="sidebar-item-icon">🏷️</span> Categories</a>
+      <div class="sidebar-section-label" style="margin-top:.5rem">Analytics</div>
+      <a href="analytics.html" class="sidebar-item"><span class="sidebar-item-icon">📈</span> Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:.5rem">System</div>
+      <a href="settings.html" class="sidebar-item"><span class="sidebar-item-icon">⚙️</span> Settings</a>
+      <a href="../index.html" class="sidebar-item" target="_blank"><span class="sidebar-item-icon">🌐</span> View Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">👑</div>
+        <div>
+          <div class="sidebar-user-name" id="admin-name">Admin</div>
+          <div class="sidebar-user-role">Administrator</div>
+        </div>
+        <button class="logout-btn" onclick="logout()">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <div>
+        <div class="admin-header-title">Game Management</div>
+        <div class="header-breadcrumb">Admin <span>›</span> Games</div>
+      </div>
+      <div class="header-actions">
+        <div class="admin-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search games..." id="search-input" oninput="renderGames()">
+        </div>
+        <select class="form-select" id="filter-cat" style="width:160px" onchange="renderGames()">
+          <option value="">All Categories</option>
+        </select>
+        <select class="form-select" id="filter-status" style="width:140px" onchange="renderGames()">
+          <option value="">All Status</option>
+          <option value="featured">Featured</option>
+          <option value="hot">Hot</option>
+          <option value="new">New</option>
+          <option value="active">Active</option>
+        </select>
+        <button class="btn btn-primary" onclick="openGameForm()">+ Add Game</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🎮 All Games <span id="game-count-badge" style="font-size:.75rem;color:var(--text-muted);font-family:var(--font-body);font-weight:400"></span></span>
+          <div style="display:flex;gap:.5rem;align-items:center">
+            <span style="font-size:.8rem;color:var(--text-muted)">Sort by:</span>
+            <select class="form-select btn-sm" id="sort-select" style="width:130px" onchange="renderGames()">
+              <option value="newest">Newest</option>
+              <option value="plays">Most Played</option>
+              <option value="rating">Top Rated</option>
+              <option value="likes">Most Liked</option>
+            </select>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Game</th><th>Category</th><th>Rating</th><th>Status</th><th>Plays</th><th>Likes</th><th>Date</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="games-tbody"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add/Edit Game Modal -->
+<div id="game-modal" class="admin-modal-overlay" style="display:none">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <span class="admin-modal-title" id="modal-heading">Add New Game</span>
+      <button class="admin-modal-close" onclick="closeGameModal()">✕</button>
+    </div>
+    <div class="admin-modal-body">
+      <input type="hidden" id="game-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="game-title" placeholder="e.g. Shadow Warrior">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-select" id="game-category"></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="game-status">
+            <option value="active">Active</option>
+            <option value="featured">Featured</option>
+            <option value="new">New</option>
+            <option value="hot">Hot</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rating (0-10)</label>
+          <input type="number" class="form-input" id="game-rating" step="0.1" min="0" max="10" placeholder="8.5">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Image URL</label>
+          <input type="text" class="form-input" id="game-image" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Game URL (optional)</label>
+          <input type="text" class="form-input" id="game-url" placeholder="https://...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Release Date</label>
+          <input type="date" class="form-input" id="game-date">
+        </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:1rem;padding-top:1.5rem">
+          <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.9rem">
+            <input type="checkbox" id="game-featured"> Featured on Homepage
+          </label>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="game-desc" placeholder="Game description..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn btn-secondary" onclick="closeGameModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGame()">💾 Save Game</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="admin-toast"></div>
+
+<script src="../assets/js/data.js"></script>
+<script src="admin.js"></script>
+<script>
+if (!GameDB.isAdmin()) { window.location.href = 'index.html'; }
+
+const PAGE_SIZE = 15;
+let allGames = [], currentPage = 1;
+
+function init() {
+  const user = GameDB.getSession();
+  if (user) document.getElementById('admin-name').textContent = user.username;
+
+  allGames = GameDB.getGames();
+  document.getElementById('sb-games-count').textContent = allGames.length;
+
+  // Populate category filters
+  const cats = GameDB.getCategories();
+  const catFilter = document.getElementById('filter-cat');
+  const catSelect = document.getElementById('game-category');
+  cats.forEach(c => {
+    catFilter.innerHTML += `<option value="${c.name}">${c.icon} ${c.name}</option>`;
+    catSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+  });
+
+  // Check if ?edit=id
+  const params = new URLSearchParams(location.search);
+  if (params.get('edit')) openGameForm(params.get('edit'));
+  if (params.get('action') === 'new') openGameForm();
+
+  renderGames();
+}
+
+function getFiltered() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const cat = document.getElementById('filter-cat').value;
+  const status = document.getElementById('filter-status').value;
+  const sort = document.getElementById('sort-select').value;
+
+  let list = [...allGames];
+  if (q) list = list.filter(g => g.title.toLowerCase().includes(q) || g.category.toLowerCase().includes(q));
+  if (cat) list = list.filter(g => g.category === cat);
+  if (status) list = list.filter(g => g.status === status);
+
+  if (sort === 'plays') list.sort((a,b) => (b.plays||0)-(a.plays||0));
+  else if (sort === 'rating') list.sort((a,b) => b.rating-a.rating);
+  else if (sort === 'likes') list.sort((a,b) => (b.likes||0)-(a.likes||0));
+  else list.sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt));
+
+  return list;
+}
+
+function renderGames() {
+  const filtered = getFiltered();
+  const total = filtered.length;
+  const pages = Math.ceil(total / PAGE_SIZE);
+  if (currentPage > pages) currentPage = 1;
+
+  document.getElementById('game-count-badge').textContent = `(${total} games)`;
+
+  const start = (currentPage-1)*PAGE_SIZE;
+  const slice = filtered.slice(start, start+PAGE_SIZE);
+
+  const tbody = document.getElementById('games-tbody');
+  if (!slice.length) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--text-muted)">🎮 No games found</td></tr>`;
+  } else {
+    tbody.innerHTML = slice.map(g => `
+      <tr>
+        <td>
+          <div class="table-game-info">
+            <div class="game-thumb" style="background:${getGameGradient(g.category)}">${getGameIcon(g.category)}</div>
+            <div>
+              <div class="table-game-title">${g.title}</div>
+              <div class="table-game-dev">${g.featured?'⭐ Featured':''}</div>
+            </div>
+          </div>
+        </td>
+        <td style="color:var(--text-muted);font-size:.85rem">${g.category}</td>
+        <td><span style="color:var(--accent)">★ ${g.rating||'—'}</span></td>
+        <td><span class="badge badge-${g.status||'active'}">${g.status||'active'}</span></td>
+        <td style="color:var(--text-muted);font-size:.85rem">▶ ${fmtNum(g.plays||0)}</td>
+        <td style="color:var(--text-muted);font-size:.85rem">❤️ ${fmtNum(g.likes||0)}</td>
+        <td style="color:var(--text-muted);font-size:.8rem">${g.createdAt||'—'}</td>
+        <td>
+          <div class="table-actions">
+            <button class="action-btn" onclick="openGameForm('${g.id}')" title="Edit">✏️</button>
+            <button class="action-btn danger" onclick="deleteGame('${g.id}','${g.title.replace(/'/g,"\\'")}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+
+  // Pagination
+  const pag = document.getElementById('pagination');
+  if (pages <= 1) { pag.innerHTML = ''; return; }
+  let pagHtml = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= pages; i++) {
+    if (i===1||i===pages||Math.abs(i-currentPage)<=1) pagHtml += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if (Math.abs(i-currentPage)===2) pagHtml += `<span style="padding:0 .3rem;color:var(--text-muted)">…</span>`;
+  }
+  pagHtml += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;
+  pag.innerHTML = pagHtml;
+}
+
+function goPage(p) { currentPage = p; renderGames(); }
+
+function fmtNum(n) { return n>=1000000?(n/1e6).toFixed(1)+'M':n>=1000?(n/1000).toFixed(1)+'K':n; }
+
+// ---- Game Form ----
+function openGameForm(id) {
+  const modal = document.getElementById('game-modal');
+  if (id) {
+    const g = allGames.find(g => String(g.id) === String(id));
+    if (!g) return;
+    document.getElementById('modal-heading').textContent = '✏️ Edit Game';
+    document.getElementById('game-id').value = g.id;
+    document.getElementById('game-title').value = g.title;
+    document.getElementById('game-category').value = g.category;
+    document.getElementById('game-status').value = g.status || 'active';
+    document.getElementById('game-rating').value = g.rating || '';
+    document.getElementById('game-image').value = g.image || '';
+    document.getElementById('game-url').value = g.url || '';
+    document.getElementById('game-date').value = g.createdAt || '';
+    document.getElementById('game-featured').checked = !!g.featured;
+    document.getElementById('game-desc').value = g.desc || g.description || '';
+  } else {
+    document.getElementById('modal-heading').textContent = '➕ Add New Game';
+    document.getElementById('game-id').value = '';
+    document.getElementById('game-title').value = '';
+    document.getElementById('game-status').value = 'new';
+    document.getElementById('game-rating').value = '';
+    document.getElementById('game-image').value = '';
+    document.getElementById('game-url').value = '';
+    document.getElementById('game-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('game-featured').checked = false;
+    document.getElementById('game-desc').value = '';
+  }
+  modal.style.display = 'flex';
+}
+
+function closeGameModal() { document.getElementById('game-modal').style.display = 'none'; }
+
+function saveGame() {
+  const id = document.getElementById('game-id').value;
+  const title = document.getElementById('game-title').value.trim();
+  const category = document.getElementById('game-category').value;
+  const rating = parseFloat(document.getElementById('game-rating').value) || 0;
+
+  if (!title) { AdminToast.show('Game title is required', 'error'); return; }
+
+  const gameData = {
+    ...(id ? { id } : {}),
+    title, category,
+    status: document.getElementById('game-status').value,
+    rating: Math.min(10, Math.max(0, rating)),
+    image: document.getElementById('game-image').value.trim() || `https://picsum.photos/seed/${Date.now()}/400/280`,
+    url: document.getElementById('game-url').value.trim(),
+    createdAt: document.getElementById('game-date').value,
+    featured: document.getElementById('game-featured').checked,
+    desc: document.getElementById('game-desc').value.trim(),
+  };
+
+  GameDB.saveGame(gameData);
+  allGames = GameDB.getGames();
+  document.getElementById('sb-games-count').textContent = allGames.length;
+  closeGameModal();
+  renderGames();
+  AdminToast.show(id ? 'Game updated!' : 'Game added!', 'success');
+}
+
+function deleteGame(id, name) {
+  AdminHelper.confirmDelete(id, name, () => {
+    GameDB.deleteGame(id);
+    allGames = GameDB.getGames();
+    document.getElementById('sb-games-count').textContent = allGames.length;
+    renderGames();
+    AdminToast.show('Game deleted!', 'success');
+  });
+}
+
+function logout() { GameDB.logout(); window.location.href = 'index.html'; }
+
+init();
+</script>
+</body>
+</html>

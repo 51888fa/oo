@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — GameVault Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-icon">🎮</div>
+      <span class="sidebar-logo-text">GAMEVAULT</span>
+      <span class="sidebar-badge">ADMIN</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-item"><span class="sidebar-item-icon">📊</span> Dashboard</a>
+      <a href="games.html" class="sidebar-item"><span class="sidebar-item-icon">🎮</span> Games</a>
+      <a href="categories.html" class="sidebar-item"><span class="sidebar-item-icon">🏷️</span> Categories</a>
+      <div class="sidebar-section-label" style="margin-top:.5rem">Analytics</div>
+      <a href="analytics.html" class="sidebar-item"><span class="sidebar-item-icon">📈</span> Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:.5rem">System</div>
+      <a href="settings.html" class="sidebar-item active"><span class="sidebar-item-icon">⚙️</span> Settings</a>
+      <a href="../index.html" class="sidebar-item" target="_blank"><span class="sidebar-item-icon">🌐</span> View Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">👑</div>
+        <div><div class="sidebar-user-name" id="admin-name">Admin</div><div class="sidebar-user-role">Administrator</div></div>
+        <button class="logout-btn" onclick="logout()">⏻</button>
+      </div>
+    </div>
+  </aside>
+  <main class="admin-main">
+    <header class="admin-header">
+      <div>
+        <div class="admin-header-title">Settings</div>
+        <div class="header-breadcrumb">Admin <span>›</span> Settings</div>
+      </div>
+    </header>
+    <div class="admin-content">
+      <div style="max-width:680px">
+
+        <!-- Site Settings -->
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-header"><span class="card-title">🌐 Site Settings</span></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Site Name</label>
+                <input type="text" class="form-input" id="s-name" placeholder="GameVault">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tagline</label>
+                <input type="text" class="form-input" id="s-tagline" placeholder="Play Free Online Games">
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Hero Title</label>
+                <input type="text" class="form-input" id="s-hero-title">
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Hero Subtitle</label>
+                <input type="text" class="form-input" id="s-hero-sub">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Featured Games Count</label>
+                <input type="number" class="form-input" id="s-featured-count" min="1" max="20">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Accent Color</label>
+                <input type="color" class="form-input" id="s-accent-color" style="height:44px;cursor:pointer;padding:.3rem .5rem">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveSiteSettings()">💾 Save Site Settings</button>
+          </div>
+        </div>
+
+        <!-- Admin Account -->
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-header"><span class="card-title">🔐 Admin Account</span></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" id="s-user">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-input" id="s-pass" placeholder="Leave blank to keep current">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:1rem">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" class="form-input" id="s-pass2" placeholder="Confirm new password">
+            </div>
+            <button class="btn btn-primary" onclick="saveAccountSettings()">🔒 Update Credentials</button>
+          </div>
+        </div>
+
+        <!-- Data Management -->
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-header"><span class="card-title">📦 Data Management</span></div>
+          <div class="card-body">
+            <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1.2rem">Export or import your game data.</p>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap">
+              <button class="btn btn-secondary" onclick="exportData()">📤 Export Data (JSON)</button>
+              <label class="btn btn-secondary" style="cursor:pointer">
+                📥 Import Data
+                <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="card" style="border-color:rgba(231,76,60,0.3)">
+          <div class="card-header" style="border-color:rgba(231,76,60,0.2)">
+            <span class="card-title" style="color:var(--danger)">⚠️ Danger Zone</span>
+          </div>
+          <div class="card-body">
+            <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1.2rem">These actions are irreversible and will reset data to defaults.</p>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap">
+              <button class="btn btn-danger" onclick="resetGames()">🔄 Reset All Games</button>
+              <button class="btn btn-danger" onclick="resetAll()">💣 Reset Everything</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-container" class="admin-toast"></div>
+<script src="../assets/js/data.js"></script>
+<script src="admin.js"></script>
+<script>
+if (!GameDB.isAdmin()) { window.location.href = 'index.html'; }
+const sessionUser = GameDB.getSession();
+if (sessionUser) document.getElementById('admin-name').textContent = sessionUser.username;
+
+// Load settings
+const s = GameDB.getSettings();
+document.getElementById('s-name').value = s.siteName || '';
+document.getElementById('s-tagline').value = s.tagline || '';
+document.getElementById('s-hero-title').value = s.heroTitle || '';
+document.getElementById('s-hero-sub').value = s.heroSubtitle || '';
+document.getElementById('s-featured-count').value = s.featuredCount || 8;
+document.getElementById('s-accent-color').value = s.accentColor || '#ff8800';
+document.getElementById('s-user').value = s.adminUser || 'admin';
+
+function saveSiteSettings() {
+  const curr = GameDB.getSettings();
+  GameDB.saveSettings({
+    ...curr,
+    siteName: document.getElementById('s-name').value.trim() || curr.siteName,
+    tagline: document.getElementById('s-tagline').value.trim() || curr.tagline,
+    heroTitle: document.getElementById('s-hero-title').value.trim() || curr.heroTitle,
+    heroSubtitle: document.getElementById('s-hero-sub').value.trim() || curr.heroSubtitle,
+    featuredCount: parseInt(document.getElementById('s-featured-count').value) || 8,
+    accentColor: document.getElementById('s-accent-color').value,
+  });
+  AdminToast.show('Site settings saved!', 'success');
+}
+
+function saveAccountSettings() {
+  const username = document.getElementById('s-user').value.trim();
+  const pass = document.getElementById('s-pass').value;
+  const pass2 = document.getElementById('s-pass2').value;
+  if (!username) { AdminToast.show('Username cannot be empty', 'error'); return; }
+  if (pass && pass !== pass2) { AdminToast.show('Passwords do not match', 'error'); return; }
+  if (pass && pass.length < 6) { AdminToast.show('Password must be at least 6 characters', 'error'); return; }
+  GameDB.updateAdminCredentials(username, pass || null);
+  document.getElementById('s-pass').value = '';
+  document.getElementById('s-pass2').value = '';
+  AdminToast.show('Credentials updated! Please re-login if you changed your password.', 'success');
+}
+
+function exportData() {
+  const data = {
+    games: GameDB.getGames(),
+    categories: GameDB.getCategories(),
+    settings: GameDB.getSettings(),
+    exportedAt: new Date().toISOString(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'gamevault-export.json'; a.click();
+  URL.revokeObjectURL(url);
+  AdminToast.show('Data exported successfully!', 'success');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.games) localStorage.setItem('gv_games', JSON.stringify(data.games));
+      if (data.categories) localStorage.setItem('gv_cats', JSON.stringify(data.categories));
+      if (data.settings) localStorage.setItem('gv_settings', JSON.stringify(data.settings));
+      AdminToast.show('Data imported successfully! Reloading...', 'success');
+      setTimeout(() => location.reload(), 1500);
+    } catch(err) {
+      AdminToast.show('Import failed: Invalid JSON file', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetGames() {
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-dialog';
+  overlay.innerHTML = `<div class="confirm-box"><div class="confirm-icon">🔄</div><div class="confirm-title">RESET GAMES</div><div class="confirm-text">This will delete all games and restore the 16 default sample games.</div><div class="confirm-actions"><button class="btn btn-secondary" onclick="this.closest('.confirm-dialog').remove()">Cancel</button><button class="btn btn-danger" id="do-reset">Reset</button></div></div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#do-reset').addEventListener('click', () => {
+    localStorage.removeItem('gv_games');
+    GameDB.init();
+    overlay.remove();
+    AdminToast.show('Games reset to defaults!', 'success');
+  });
+}
+
+function resetAll() {
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-dialog';
+  overlay.innerHTML = `<div class="confirm-box"><div class="confirm-icon">💣</div><div class="confirm-title">RESET EVERYTHING</div><div class="confirm-text">This will delete ALL data. You will be logged out.</div><div class="confirm-actions"><button class="btn btn-secondary" onclick="this.closest('.confirm-dialog').remove()">Cancel</button><button class="btn btn-danger" id="do-reset-all">Reset All</button></div></div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#do-reset-all').addEventListener('click', () => {
+    GameDB.resetAll();
+    window.location.href = 'index.html';
+  });
+}
+
+function logout() { GameDB.logout(); window.location.href = 'index.html'; }
+</script>
+</body>
+</html>

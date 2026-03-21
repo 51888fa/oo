@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Lagged Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .modal-close:hover {
+            background: #e5e7eb;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            margin-top: 10px;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .stats-mini {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-mini {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+        
+        .stat-mini h4 {
+            font-size: 24px;
+            font-weight: 900;
+        }
+        
+        .stat-mini p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-edit:hover {
+            background: #2563eb;
+        }
+        
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+        
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <a href="../index.html">Lagged<span>.com</span></a>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-page="games">
+                    <span class="icon">🎮</span> Games
+                </a>
+                <a href="#" class="nav-item" data-page="categories">
+                    <span class="icon">📁</span> Categories
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Settings</div>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <span class="icon">🚪</span> Logout
+                </a>
+            </div>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Admin</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-primary" id="addGameBtn">+ Add Game</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- Stats Mini -->
+            <div class="stats-mini">
+                <div class="stat-mini">
+                    <h4 id="statGames">0</h4>
+                    <p>Total Games</p>
+                </div>
+                <div class="stat-mini">
+                    <h4 id="statPlays">0</h4>
+                    <p>Total Plays</p>
+                </div>
+                <div class="stat-mini">
+                    <h4 id="statLikes">0</h4>
+                    <p>Total Likes</p>
+                </div>
+                <div class="stat-mini">
+                    <h4 id="statCategories">0</h4>
+                    <p>Categories</p>
+                </div>
+            </div>
+
+            <!-- Games Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">All Games</h2>
+                    <input type="text" id="searchGames" placeholder="Search games..." 
+                           style="padding: 8px 15px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px;">
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Game</th>
+                                    <th>Category</th>
+                                    <th>Plays</th>
+                                    <th>Likes</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gamesTable">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="pagination">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Game Modal -->
+    <div class="modal-overlay" id="gameModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Game</h2>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="gameForm">
+                    <input type="hidden" id="gameId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Game Title</label>
+                        <input type="text" id="gameTitle" class="form-input" placeholder="Enter game title" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select id="gameCategory" class="form-select" required>
+                                <option value="arcade">🕹️ Arcade</option>
+                                <option value="puzzle">🧩 Puzzle</option>
+                                <option value="action">🎮 Action</option>
+                                <option value="racing">🏎️ Racing</option>
+                                <option value="sports">⚽ Sports</option>
+                                <option value="shooting">🎯 Shooting</option>
+                                <option value="io">🔵 .io Games</option>
+                                <option value="adventure">🗺️ Adventure</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Plays</label>
+                            <input type="number" id="gamePlays" class="form-input" placeholder="0" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Likes</label>
+                            <input type="number" id="gameLikes" class="form-input" placeholder="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Featured</label>
+                            <select id="gameFeatured" class="form-select">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tags</label>
+                        <div style="display: flex; gap: 15px; margin-top: 8px;">
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="tagNew"> New
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="tagHot"> Hot
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="tagTop"> Top
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Thumbnail URL</label>
+                        <input type="url" id="gameThumbnail" class="form-input" 
+                               placeholder="https://example.com/image.jpg">
+                        <div class="image-preview" id="imagePreview">
+                            <span>Image preview</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea id="gameDescription" class="form-textarea" 
+                                  placeholder="Enter game description" rows="3"></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Save Game</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/data.js"></script>
+    <script>
+        // Check login
+        if (!GameDB.getCurrentUser()) {
+            window.location.href = 'index.html';
+        }
+        
+        // Initialize
+        document.getElementById('userName').textContent = GameDB.getCurrentUser();
+        
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        
+        // Stats
+        function updateStats() {
+            const games = GameDB.getGames();
+            const totalPlays = games.reduce((sum, g) => sum + g.plays, 0);
+            const totalLikes = games.reduce((sum, g) => sum + g.likes, 0);
+            
+            document.getElementById('statGames').textContent = games.length;
+            document.getElementById('statPlays').textContent = formatNumber(totalPlays);
+            document.getElementById('statLikes').textContent = formatNumber(totalLikes);
+            document.getElementById('statCategories').textContent = GameDB.getCategories().length;
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+        
+        // Render table
+        function renderTable(page = 1) {
+            const games = GameDB.getGames();
+            const search = document.getElementById('searchGames').value.toLowerCase();
+            
+            const filtered = games.filter(g => 
+                g.title.toLowerCase().includes(search) ||
+                g.category.toLowerCase().includes(search)
+            );
+            
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            const start = (page - 1) * itemsPerPage;
+            const paginated = filtered.slice(start, start + itemsPerPage);
+            
+            const tbody = document.getElementById('gamesTable');
+            
+            if (paginated.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <h3>No games found</h3>
+                                <p>Add your first game to get started!</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = paginated.map(game => `
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="${game.thumbnail}" alt="${game.title}" 
+                                 class="table-img" onerror="this.src='https://placehold.co/100x75/2a2a32/666?text=${encodeURIComponent(game.title)}'">
+                            <strong>${game.title}</strong>
+                        </div>
+                    </td>
+                    <td>${game.categoryIcon} ${game.category}</td>
+                    <td>${formatNumber(game.plays)}</td>
+                    <td>${formatNumber(game.likes)}</td>
+                    <td>
+                        ${game.featured ? '<span class="status active">Featured</span>' : '<span class="status inactive">Normal</span>'}
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-sm btn-edit" onclick="editGame(${game.id})">✏️</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteGame(${game.id})">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Pagination
+            renderPagination(totalPages, page);
+        }
+        
+        function renderPagination(total, current) {
+            const container = document.getElementById('pagination');
+            if (total <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            for (let i = 1; i <= total; i++) {
+                html += `<button class="${i === current ? 'active' : ''}" onclick="renderTable(${i})">${i}</button>`;
+            }
+            container.innerHTML = html;
+        }
+        
+        // Modal functions
+        function openModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Game';
+            document.getElementById('gameForm').reset();
+            document.getElementById('gameId').value = '';
+            document.getElementById('imagePreview').innerHTML = '<span>Image preview</span>';
+            document.getElementById('gameModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('gameModal').classList.remove('active');
+        }
+        
+        function editGame(id) {
+            const game = GameDB.getGameById(id);
+            if (!game) return;
+            
+            document.getElementById('modalTitle').textContent = 'Edit Game';
+            document.getElementById('gameId').value = game.id;
+            document.getElementById('gameTitle').value = game.title;
+            document.getElementById('gameCategory').value = game.category;
+            document.getElementById('gamePlays').value = game.plays;
+            document.getElementById('gameLikes').value = game.likes;
+            document.getElementById('gameFeatured').value = game.featured ? 'true' : 'false';
+            document.getElementById('gameThumbnail').value = game.thumbnail;
+            document.getElementById('gameDescription').value = game.description || '';
+            document.getElementById('tagNew').checked = game.isNew || false;
+            document.getElementById('tagHot').checked = game.isHot || false;
+            document.getElementById('tagTop').checked = game.isTop || false;
+            
+            if (game.thumbnail) {
+                document.getElementById('imagePreview').innerHTML = 
+                    `<img src="${game.thumbnail}" alt="Preview" onerror="this.parentElement.innerHTML='<span>Invalid image URL</span>'">`;
+            }
+            
+            document.getElementById('gameModal').classList.add('active');
+        }
+        
+        function deleteGame(id) {
+            if (confirm('Are you sure you want to delete this game?')) {
+                GameDB.deleteGame(id);
+                renderTable(currentPage);
+                updateStats();
+            }
+        }
+        
+        // Events
+        document.getElementById('addGameBtn').addEventListener('click', openModal);
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('gameModal').addEventListener('click', (e) => {
+            if (e.target.id === 'gameModal') closeModal();
+        });
+        
+        document.getElementById('gameForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('gameId').value;
+            const category = document.getElementById('gameCategory').value;
+            const categoryIcons = {
+                'arcade': '🕹️', 'puzzle': '🧩', 'action': '🎮',
+                'racing': '🏎️', 'sports': '⚽', 'shooting': '🎯',
+                'io': '🔵', 'adventure': '🗺️'
+            };
+            
+            const gameData = {
+                title: document.getElementById('gameTitle').value,
+                category: category,
+                categoryIcon: categoryIcons[category],
+                thumbnail: document.getElementById('gameThumbnail').value || 'https://placehold.co/400x300/2a2a32/666?text=Game',
+                plays: parseInt(document.getElementById('gamePlays').value) || 0,
+                likes: parseInt(document.getElementById('gameLikes').value) || 0,
+                featured: document.getElementById('gameFeatured').value === 'true',
+                isNew: document.getElementById('tagNew').checked,
+                isHot: document.getElementById('tagHot').checked,
+                isTop: document.getElementById('tagTop').checked,
+                description: document.getElementById('gameDescription').value
+            };
+            
+            if (id) {
+                GameDB.updateGame(parseInt(id), gameData);
+            } else {
+                GameDB.addGame(gameData);
+            }
+            
+            closeModal();
+            renderTable(currentPage);
+            updateStats();
+        });
+        
+        document.getElementById('gameThumbnail').addEventListener('input', (e) => {
+            const url = e.target.value;
+            const preview = document.getElementById('imagePreview');
+            if (url) {
+                preview.innerHTML = `<img src="${url}" alt="Preview" onerror="this.parentElement.innerHTML='<span>Invalid image URL</span>'">`;
+            } else {
+                preview.innerHTML = '<span>Image preview</span>';
+            }
+        });
+        
+        document.getElementById('searchGames').addEventListener('input', () => {
+            renderTable(1);
+        });
+        
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('Logout?')) {
+                GameDB.logout();
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Init
+        updateStats();
+        renderTable();
+    </script>
+</body>
+</html>
