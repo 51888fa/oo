@@ -7,6 +7,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- =============================================
+         Google AdSense 广告代码
+         申请地址: https://www.google.com/adsense
+         申请通过后，将下面的 ca-pub-XXXXXXXXXXXXXXXX 替换为你的真实 Publisher ID
+         ============================================= -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+
+    <!-- =============================================
+         百度联盟广告（国内备选）
+         申请地址: https://union.baidu.com
+         申请通过后将下方注释取消，并替换 cproid 为你的真实ID
+         ============================================= -->
+    <!-- <script type="text/javascript">
+         var cpro_id = "uXXXXXXXX";
+    </script>
+    <script src="https://cpro.baidustatic.com/cpro/ui/cm.js" defer></script> -->
     <style>
         * {
             margin: 0;
@@ -20,8 +37,8 @@
 
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f0f12;
-            color: #fff;
+            background: #f4f6fb;
+            color: #222;
             line-height: 1.5;
             min-height: 100vh;
         }
@@ -33,8 +50,8 @@
 
         /* Header */
         .header {
-            background: #1a1a1f;
-            border-bottom: 1px solid #2a2a32;
+            background: #fff;
+            border-bottom: 1px solid #e0e4ef;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -81,9 +98,9 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #2a2a32;
+            background: #eef0f7;
             border: none;
-            color: #888;
+            color: #555;
             font-size: 18px;
             cursor: pointer;
             display: flex;
@@ -108,7 +125,7 @@
         .menu-btn span {
             width: 22px;
             height: 2px;
-            background: #888;
+            background: #aaa;
             transition: all 0.3s ease;
         }
 
@@ -120,7 +137,7 @@
         .search-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(255,255,255,0.95);
             z-index: 200;
             display: flex;
             align-items: flex-start;
@@ -152,10 +169,10 @@
             padding-left: 55px;
             font-size: 20px;
             font-family: inherit;
-            background: #1a1a1f;
-            border: 2px solid #333;
+            background: #fff;
+            border: 2px solid #dde2f0;
             border-radius: 16px;
-            color: white;
+            color: #222;
             transition: all 0.3s ease;
         }
 
@@ -180,9 +197,9 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: #333;
+            background: #eef0f7;
             border: none;
-            color: white;
+            color: #555;
             font-size: 24px;
             cursor: pointer;
         }
@@ -209,7 +226,7 @@
         .section-title {
             font-size: 20px;
             font-weight: 800;
-            color: #fff;
+            color: #222;
         }
 
         .section-link {
@@ -240,12 +257,12 @@
         }
 
         .game-scroll::-webkit-scrollbar-track {
-            background: #2a2a32;
+            background: #e0e4ef;
             border-radius: 3px;
         }
 
         .game-scroll::-webkit-scrollbar-thumb {
-            background: #555;
+            background: #bbb;
             border-radius: 3px;
         }
 
@@ -271,7 +288,7 @@
             aspect-ratio: 4/3;
             border-radius: 12px;
             object-fit: cover;
-            background: #2a2a32;
+            background: #dde2f0;
         }
 
         .game-card-info {
@@ -281,7 +298,7 @@
         .game-card-title {
             font-size: 14px;
             font-weight: 700;
-            color: #fff;
+            color: #222;
             margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
@@ -327,7 +344,7 @@
         }
 
         .category-card {
-            background: #1a1a1f;
+            background: #fff;
             border-radius: 12px;
             padding: 20px;
             display: flex;
@@ -335,11 +352,11 @@
             gap: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid #2a2a32;
+            border: 1px solid #e0e4ef;
         }
 
         .category-card:hover {
-            background: #2a2a32;
+            background: #f0f3fb;
             border-color: #ff6b35;
             transform: translateY(-3px);
         }
@@ -368,8 +385,8 @@
 
         /* Footer */
         .footer {
-            background: #0a0a0d;
-            border-top: 1px solid #1a1a1f;
+            background: #e8ecf5;
+            border-top: 1px solid #dde2f0;
             padding: 40px 20px;
             margin-top: 40px;
         }
@@ -393,7 +410,7 @@
         }
 
         .footer-brand p {
-            color: #666;
+            color: #888;
             font-size: 14px;
             line-height: 1.7;
         }
@@ -404,7 +421,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 20px;
-            color: #fff;
+            color: #333;
         }
 
         .footer-links {
@@ -416,7 +433,7 @@
         }
 
         .footer-links a {
-            color: #666;
+            color: #888;
             font-size: 14px;
             transition: color 0.3s ease;
         }
@@ -426,12 +443,12 @@
         }
 
         .footer-bottom {
-            border-top: 1px solid #1a1a1f;
+            border-top: 1px solid #dde2f0;
             padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #666;
+            color: #aaa;
             font-size: 13px;
         }
 
@@ -439,7 +456,7 @@
         .game-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.5);
             z-index: 300;
             display: flex;
             align-items: center;
@@ -456,7 +473,7 @@
         }
 
         .game-modal-content {
-            background: #1a1a1f;
+            background: #fff;
             border-radius: 20px;
             width: 100%;
             max-width: 500px;
@@ -473,7 +490,7 @@
             width: 100%;
             aspect-ratio: 16/9;
             object-fit: cover;
-            background: #2a2a32;
+            background: #dde2f0;
         }
 
         .modal-body {
@@ -484,6 +501,7 @@
             font-size: 22px;
             font-weight: 800;
             margin-bottom: 10px;
+            color: #222;
         }
 
         .modal-meta {
@@ -495,7 +513,7 @@
         }
 
         .modal-desc {
-            color: #aaa;
+            color: #666;
             font-size: 14px;
             line-height: 1.7;
             margin-bottom: 20px;
@@ -529,13 +547,13 @@
         }
 
         .btn-secondary {
-            background: #2a2a32;
-            color: #888;
+            background: #eef0f7;
+            color: #555;
         }
 
         .btn-secondary:hover {
-            background: #3a3a42;
-            color: white;
+            background: #dde2f0;
+            color: #222;
         }
 
         .modal-close {
@@ -545,9 +563,9 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #333;
+            background: #eef0f7;
             border: none;
-            color: white;
+            color: #555;
             font-size: 20px;
             cursor: pointer;
         }
@@ -566,7 +584,7 @@
 
         .auth-btn.login {
             background: transparent;
-            color: #888;
+            color: #555;
         }
 
         .auth-btn.login:hover {
@@ -626,6 +644,54 @@
             }
         }
 
+        /* ===== 广告位样式 ===== */
+        .ad-banner {
+            width: 100%;
+            background: #fff;
+            border: 1px dashed #dde2f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #aaa;
+            font-size: 13px;
+            overflow: hidden;
+            margin: 10px 0 25px;
+        }
+
+        .ad-banner-top {
+            height: 90px;  /* 728x90 Leaderboard */
+        }
+
+        .ad-banner-mid {
+            height: 90px;
+            margin: 0 0 30px;
+        }
+
+        .ad-banner ins {
+            display: block;
+            width: 100%;
+        }
+
+        .ad-placeholder {
+            padding: 20px;
+            width: 100%;
+        }
+
+        .ad-placeholder small {
+            display: block;
+            color: #ccc;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .ad-banner-top {
+                height: 60px; /* 320x50 Mobile Banner */
+            }
+        }
+
         /* Loading Animation */
         .loading {
             display: flex;
@@ -682,6 +748,26 @@
 
     <!-- Main Content -->
     <main class="main">
+
+        <!-- ===== 顶部横幅广告 (728x90 Leaderboard) ===== -->
+        <div class="ad-banner ad-banner-top" id="adTop">
+            <!-- Google AdSense 广告（申请通过后取消注释，删除占位符div） -->
+            <!--
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            -->
+            <!-- 占位符（申请广告后删除此div） -->
+            <div class="ad-placeholder">
+                <span>广告位 — 728×90</span>
+                <small>申请 Google AdSense 后此处将显示真实广告</small>
+            </div>
+        </div>
+
         <!-- New Games -->
         <section class="game-section">
             <div class="section-header">
@@ -715,6 +801,24 @@
             </div>
         </section>
 
+        <!-- ===== 中间插入广告 (320x50 / 728x90) ===== -->
+        <div class="ad-banner ad-banner-mid" id="adMid">
+            <!-- Google AdSense 广告（申请通过后取消注释） -->
+            <!--
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="0987654321"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            -->
+            <div class="ad-placeholder">
+                <span>广告位 — 728×90 （中间）</span>
+                <small>申请 Google AdSense 后此处将显示真实广告</small>
+            </div>
+        </div>
+
         <!-- Popular Games -->
         <section class="game-section">
             <div class="section-header">
@@ -746,6 +850,25 @@
                 <!-- Populated by JS -->
             </div>
         </section>
+
+        <!-- ===== 底部广告 (300x250 Rectangle) ===== -->
+        <div style="display:flex;justify-content:center;margin:10px 0 30px;">
+            <div id="adBottom" style="width:300px;height:250px;background:#fff;border:1px dashed #dde2f0;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;color:#aaa;overflow:hidden;">
+                <!-- Google AdSense 300x250（申请通过后取消注释） -->
+                <!--
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:250px"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="1122334455"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                -->
+                <div class="ad-placeholder">
+                    <span>广告位 — 300×250</span>
+                    <small>申请通过后显示真实广告</small>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer -->
@@ -770,7 +893,7 @@
                     <ul class="footer-links">
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
                     </ul>
                 </div>
