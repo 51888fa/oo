@@ -5,1206 +5,299 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Online Games - Play Now</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif; }
-    </style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #222; line-height: 1.5; }
+        a { text-decoration: none; color: inherit; }
 
-    <!-- =============================================
-         Google AdSense 广告代码
-         申请地址: https://www.google.com/adsense
-         申请通过后，将下面的 ca-pub-XXXXXXXXXXXXXXXX 替换为你的真实 Publisher ID
-         ============================================= -->
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+        .header { background: #fff; border-bottom: 1px solid #e0e4ef; padding: 15px 20px; }
+        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 24px; font-weight: 900; color: #ff6b35; }
+        .header-actions { display: flex; gap: 10px; }
+        .btn { padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; border: none; font-weight: 600; }
+        .btn-primary { background: #ff6b35; color: #fff; }
+        .btn-outline { background: #eef0f7; color: #555; }
 
-    <!-- =============================================
-         百度联盟广告（国内备选）
-         申请地址: https://union.baidu.com
-         申请通过后将下方注释取消，并替换 cproid 为你的真实ID
-         ============================================= -->
-    <!-- <script type="text/javascript">
-         var cpro_id = "uXXXXXXXX";
-    </script>
-    <script src="https://cpro.baidustatic.com/cpro/ui/cm.js" defer></script> -->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        .main { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .game-section { margin-bottom: 30px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .section-title { font-size: 20px; font-weight: 800; color: #222; }
+        .section-link { color: #ff6b35; font-size: 14px; font-weight: 600; }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        .game-scroll { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+        .game-card { background: #fff; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .game-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+        .game-card-img { width: 100%; height: 110px; object-fit: cover; background: #ddd; display: block; }
+        .game-card-info { padding: 10px 12px; }
+        .game-card-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .game-card-meta { font-size: 11px; color: #888; margin-top: 4px; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f4f6fb;
-            color: #222;
-            line-height: 1.5;
-            min-height: 100vh;
-        }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 30px; }
+        .category-card { background: #fff; border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; transition: transform 0.2s; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .category-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+        .category-icon { font-size: 28px; }
+        .category-info h4 { font-size: 15px; font-weight: 700; }
+        .category-info span { font-size: 12px; color: #888; }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Header */
-        .header {
-            background: #fff;
-            border-bottom: 1px solid #e0e4ef;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            height: 60px;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            color: #ff6b35;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-sub {
-            font-size: 12px;
-            color: #888;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .search-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #eef0f7;
-            border: none;
-            color: #555;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .search-btn:hover {
-            background: #ff6b35;
-            color: white;
-        }
-
-        .menu-btn {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .menu-btn span {
-            width: 22px;
-            height: 2px;
-            background: #aaa;
-            transition: all 0.3s ease;
-        }
-
-        .menu-btn:hover span {
-            background: #ff6b35;
-        }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-right: 4px; }
+        .tag-new { background: #e8f5e9; color: #2e7d32; }
+        .tag-hot { background: #fff3e0; color: #e65100; }
+        .tag-top { background: #fffde7; color: #f9a825; }
 
         /* Search Modal */
-        .search-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.95);
-            z-index: 200;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding-top: 120px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .search-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .search-container {
-            width: 100%;
-            max-width: 600px;
-            padding: 0 20px;
-        }
-
-        .search-input-wrap {
-            position: relative;
-        }
-
-        .search-input-wrap input {
-            width: 100%;
-            padding: 20px 25px;
-            padding-left: 55px;
-            font-size: 20px;
-            font-family: inherit;
-            background: #fff;
-            border: 2px solid #dde2f0;
-            border-radius: 16px;
-            color: #222;
-            transition: all 0.3s ease;
-        }
-
-        .search-input-wrap input:focus {
-            outline: none;
-            border-color: #ff6b35;
-        }
-
-        .search-input-wrap::before {
-            content: "🔍";
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-        }
-
-        .search-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #eef0f7;
-            border: none;
-            color: #555;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Main Content */
-        .main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Game Section */
-        .game-section {
-            margin-bottom: 35px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #222;
-        }
-
-        .section-link {
-            font-size: 13px;
-            color: #ff6b35;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .section-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Horizontal Scroll List */
-        .game-scroll {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .game-scroll::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .game-scroll::-webkit-scrollbar-track {
-            background: #e0e4ef;
-            border-radius: 3px;
-        }
-
-        .game-scroll::-webkit-scrollbar-thumb {
-            background: #bbb;
-            border-radius: 3px;
-        }
-
-        .game-scroll::-webkit-scrollbar-thumb:hover {
-            background: #ff6b35;
-        }
-
-        /* Game Card - Compact Horizontal */
-        .game-card {
-            flex-shrink: 0;
-            width: 180px;
-            scroll-snap-align: start;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .game-card-img {
-            width: 100%;
-            aspect-ratio: 4/3;
-            border-radius: 12px;
-            object-fit: cover;
-            background: #dde2f0;
-        }
-
-        .game-card-info {
-            padding: 10px 0;
-        }
-
-        .game-card-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .game-card-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #888;
-        }
-
-        .game-card-tag {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .tag-new {
-            background: #22c55e;
-            color: white;
-        }
-
-        .tag-hot {
-            background: #ff6b35;
-            color: white;
-        }
-
-        .tag-top {
-            background: #eab308;
-            color: #000;
-        }
-
-        /* Category Grid */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .category-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid #e0e4ef;
-        }
-
-        .category-card:hover {
-            background: #f0f3fb;
-            border-color: #ff6b35;
-            transform: translateY(-3px);
-        }
-
-        .category-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #ff6b35, #ff3d3d);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .category-info h4 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .category-info span {
-            font-size: 12px;
-            color: #888;
-        }
-
-        /* Footer */
-        .footer {
-            background: #e8ecf5;
-            border-top: 1px solid #dde2f0;
-            padding: 40px 20px;
-            margin-top: 40px;
-        }
-
-        .footer-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .footer-brand .logo {
-            font-size: 28px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .footer-brand p {
-            color: #888;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .footer-title {
-            font-size: 14px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #888;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #ff6b35;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #dde2f0;
-            padding-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #aaa;
-            font-size: 13px;
-        }
+        .search-modal { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding-top: 120px; }
+        .search-modal.active { display: flex; }
+        .search-input-wrap { position: relative; width: 100%; max-width: 600px; padding: 0 20px; }
+        .search-input-wrap input { width: 100%; padding: 20px 25px; padding-left: 55px; font-size: 20px; background: #fff; border: 2px solid #dde2f0; border-radius: 16px; outline: none; }
+        .search-input-wrap input:focus { border-color: #ff6b35; }
+        .search-input-wrap::before { content: "\1F50D"; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 20px; }
+        .search-close { position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: #eef0f7; border: none; font-size: 20px; cursor: pointer; }
+        #searchResults { max-height: 400px; overflow-y: auto; padding: 0 20px; }
 
         /* Game Modal */
-        .game-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 300;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            padding: 20px;
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: #fff; border-radius: 16px; max-width: 480px; width: 90%; overflow: hidden; }
+        .modal-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .modal-body { padding: 20px; }
+        .modal-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .modal-meta { color: #888; font-size: 14px; margin-bottom: 12px; }
+        .modal-desc { color: #555; font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+        .modal-btns { display: flex; gap: 10px; }
+        .modal-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+        .btn-play { background: #ff6b35; color: #fff; }
+        .btn-like { background: #eef0f7; color: #555; }
 
-        .game-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .game-modal-content {
-            background: #fff;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 500px;
-            overflow: hidden;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .game-modal.active .game-modal-content {
-            transform: scale(1);
-        }
-
-        .modal-img {
-            width: 100%;
-            aspect-ratio: 16/9;
-            object-fit: cover;
-            background: #dde2f0;
-        }
-
-        .modal-body {
-            padding: 25px;
-        }
-
-        .modal-title {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: #222;
-        }
-
-        .modal-meta {
-            display: flex;
-            gap: 15px;
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 15px;
-        }
-
-        .modal-desc {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            flex: 1;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff6b35, #ff3d3d);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255,107,53,0.4);
-        }
-
-        .btn-secondary {
-            background: #eef0f7;
-            color: #555;
-        }
-
-        .btn-secondary:hover {
-            background: #dde2f0;
-            color: #222;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #eef0f7;
-            border: none;
-            color: #555;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* Auth Buttons */
-        .auth-btn {
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 13px;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .auth-btn.login {
-            background: transparent;
-            color: #555;
-        }
-
-        .auth-btn.login:hover {
-            color: #ff6b35;
-        }
-
-        .auth-btn.signup {
-            background: #ff6b35;
-            color: white;
-        }
-
-        .auth-btn.signup:hover {
-            background: #e55a2b;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 0 15px;
-            }
-            
-            .logo-sub {
-                display: none;
-            }
-            
-            .main {
-                padding: 15px;
-            }
-            
-            .game-card {
-                width: 150px;
-            }
-            
-            .footer-top {
-                grid-template-columns: 1fr 1fr;
-                gap: 30px;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .game-card {
-                width: 130px;
-            }
-            
-            .category-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-top {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== 广告位样式 ===== */
-        .ad-banner {
-            width: 100%;
-            background: #fff;
-            border: 1px dashed #dde2f0;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #aaa;
-            font-size: 13px;
-            overflow: hidden;
-            margin: 10px 0 25px;
-        }
-
-        .ad-banner-top {
-            height: 90px;  /* 728x90 Leaderboard */
-        }
-
-        .ad-banner-mid {
-            height: 90px;
-            margin: 0 0 30px;
-        }
-
-        .ad-banner ins {
-            display: block;
-            width: 100%;
-        }
-
-        .ad-placeholder {
-            padding: 20px;
-            width: 100%;
-        }
-
-        .ad-placeholder small {
-            display: block;
-            color: #ccc;
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-        @media (max-width: 768px) {
-            .ad-banner-top {
-                height: 60px; /* 320x50 Mobile Banner */
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #333;
-            border-top-color: #ff6b35;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        /* Footer */
+        .footer { background: #fff; border-top: 1px solid #e0e4ef; padding: 40px 20px; margin-top: 40px; }
+        .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+        .footer-col h4 { font-size: 15px; font-weight: 800; margin-bottom: 12px; }
+        .footer-col a { display: block; color: #777; font-size: 13px; padding: 4px 0; }
+        .footer-col a:hover { color: #ff6b35; }
+        .footer-bottom { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e4ef; color: #aaa; font-size: 13px; }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-inner">
-            <div class="logo-area">
-                <a href="#" class="logo">Lagged</a>
-                <span class="logo-sub">Free Online Games</span>
-            </div>
-            <div class="header-actions">
-                <button class="search-btn" id="searchBtn">🔍</button>
-                <button class="auth-btn login" id="loginBtn">Log In</button>
-                <button class="auth-btn signup" id="signupBtn">Sign Up</button>
-                <div class="menu-btn" id="menuBtn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- Search Modal -->
-    <div class="search-modal" id="searchModal">
-        <button class="search-close" id="searchClose">✕</button>
-        <div class="search-container">
-            <div class="search-input-wrap">
-                <input type="text" placeholder="Search games..." id="searchInput" autofocus>
-            </div>
-            <div id="searchResults"></div>
+<!-- Header -->
+<header class="header">
+    <div class="header-inner">
+        <div class="logo-area" style="display:flex;align-items:center;gap:15px;">
+            <div class="logo">Lagged</div>
+            <span style="font-size:11px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Free Online Games</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-outline" onclick="document.getElementById('searchModal').classList.add('active')">🔍 Search</button>
+            <a href="#" class="btn btn-primary">Log In</a>
         </div>
     </div>
+</header>
 
-    <!-- Main Content -->
-    <main class="main">
-
-        <!-- ===== 顶部横幅广告 (728x90 Leaderboard) ===== -->
-        <div class="ad-banner ad-banner-top" id="adTop">
-            <noscript><p style="text-align:center;color:#999;font-size:12px;padding:10px;">Advertisement</p></noscript>
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+    <button class="search-close" onclick="document.getElementById('searchModal').classList.remove('active')">✕</button>
+    <div class="search-container">
+        <div class="search-input-wrap">
+            <input type="text" placeholder="Search games..." id="searchInput" oninput="handleSearch(event)">
         </div>
+        <div id="searchResults"></div>
+    </div>
+</div>
 
-        <!-- New Games -->
-        <section class="game-section">
-            <div class="section-header">
-                <h2 class="section-title">New Games</h2>
-                <a href="#" class="section-link">View more ›</a>
-            </div>
-            <div class="game-scroll" id="newGames">
-                <!-- Populated by JS -->
-            </div>
-        </section>
+<!-- Main Content -->
+<main class="main">
 
-        <!-- Only on Lagged -->
-        <section class="game-section">
-            <div class="section-header">
-                <h2 class="section-title">Only on Lagged.com</h2>
-                <a href="#" class="section-link">View more ›</a>
-            </div>
-            <div class="game-scroll" id="laggedExclusive">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- Games with Achievements -->
-        <section class="game-section">
-            <div class="section-header">
-                <h2 class="section-title">Games with Achievements</h2>
-                <a href="#" class="section-link">View more ›</a>
-            </div>
-            <div class="game-scroll" id="achievementGames">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- ===== 中间插入广告 (320x50 / 728x90) ===== -->
-        <div class="ad-banner ad-banner-mid" id="adMid">
-            <!-- Google AdSense 广告（申请通过后取消注释） -->
-            <!--
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="0987654321"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            -->
-            <div class="ad-placeholder">
-                <span>广告位 — 728×90 （中间）</span>
-                <small>申请 Google AdSense 后此处将显示真实广告</small>
-            </div>
+    <!-- New Games -->
+    <section class="game-section">
+        <div class="section-header">
+            <h2 class="section-title">New Games</h2>
+            <a href="#" class="section-link">View more ›</a>
         </div>
+        <div class="game-scroll" id="newGames"></div>
+    </section>
 
-        <!-- Popular Games -->
-        <section class="game-section">
-            <div class="section-header">
-                <h2 class="section-title">Popular Games</h2>
-                <a href="#" class="section-link">View more ›</a>
-            </div>
-            <div class="game-scroll" id="popularGames">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- Game Categories -->
-        <section class="game-section">
-            <div class="section-header">
-                <h2 class="section-title">Game Categories</h2>
-                <a href="#" class="section-link">View all ›</a>
-            </div>
-            <div class="category-grid" id="categoryGrid">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- You Might Like -->
-        <section class="game-section">
-            <div class="section-header">
-                <h2 class="section-title">Games You Might Like</h2>
-            </div>
-            <div class="game-scroll" id="recommendedGames">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- ===== 底部广告 (300x250 Rectangle) ===== -->
-        <div style="display:flex;justify-content:center;margin:10px 0 30px;">
-            <div id="adBottom" style="width:300px;height:250px;background:#fff;border:1px dashed #dde2f0;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;color:#aaa;overflow:hidden;">
-                <!-- Google AdSense 300x250（申请通过后取消注释） -->
-                <!--
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:300px;height:250px"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                     data-ad-slot="1122334455"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                -->
-                <div class="ad-placeholder">
-                    <span>广告位 — 300×250</span>
-                    <small>申请通过后显示真实广告</small>
-                </div>
-            </div>
+    <!-- Only on Lagged -->
+    <section class="game-section">
+        <div class="section-header">
+            <h2 class="section-title">Only on Lagged.com</h2>
+            <a href="#" class="section-link">View more ›</a>
         </div>
+        <div class="game-scroll" id="laggedExclusive"></div>
+    </section>
 
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <a href="#" class="logo">Lagged</a>
-                    <p>The home of over 5,000 free online games. Play the best casual games, arcade games, puzzle games, and more with friends!</p>
-                </div>
-                <div>
-                    <h4 class="footer-title">Games</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Action Games</a></li>
-                        <li><a href="#">Arcade Games</a></li>
-                        <li><a href="#">Puzzle Games</a></li>
-                        <li><a href="#">Racing Games</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title">Company</h4>
-                    <ul class="footer-links">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title">Connect</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">YouTube</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>© 2026 Lagged.com. All rights reserved.</span>
-                <span>Made with ❤️ for gamers worldwide</span>
-            </div>
+    <!-- Popular Games -->
+    <section class="game-section">
+        <div class="section-header">
+            <h2 class="section-title">Popular Games</h2>
+            <a href="#" class="section-link">View more ›</a>
         </div>
-    </footer>
+        <div class="game-scroll" id="popularGames"></div>
+    </section>
 
-    <!-- Game Modal -->
-    <div class="game-modal" id="gameModal">
-        <button class="modal-close" id="modalClose">✕</button>
-        <div class="game-modal-content">
-            <img class="modal-img" id="modalImg" src="" alt="">
-            <div class="modal-body">
-                <h2 class="modal-title" id="modalTitle"></h2>
-                <div class="modal-meta">
-                    <span id="modalCategory"></span>
-                    <span>👁️ <span id="modalPlays">0</span> plays</span>
-                </div>
-                <p class="modal-desc" id="modalDesc"></p>
-                <div class="modal-actions">
-                    <button class="btn btn-primary" id="playBtn">▶ Play Game</button>
-                    <button class="btn btn-secondary" id="likeBtn">🤍 Like</button>
-                </div>
+    <!-- Categories -->
+    <section class="game-section">
+        <div class="section-header">
+            <h2 class="section-title">Game Categories</h2>
+        </div>
+        <div class="category-grid" id="categoryGrid"></div>
+    </section>
+
+    <!-- Recommended -->
+    <section class="game-section">
+        <div class="section-header">
+            <h2 class="section-title">Games You Might Like</h2>
+        </div>
+        <div class="game-scroll" id="recommendedGames"></div>
+    </section>
+
+</main>
+
+<!-- Game Modal -->
+<div class="modal-overlay" id="gameModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal-content">
+        <img class="modal-img" id="modalImg" alt="">
+        <div class="modal-body">
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-meta" id="modalCategory"></div>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div class="modal-btns">
+                <button class="modal-btn btn-play" id="playBtn">▶ Play Now</button>
+                <button class="modal-btn btn-like" id="likeBtn">🤍 Like</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="assets/js/data.js"></script>
-    <script>
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initSite();
-        });
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h4>About Us</h4>
+            <a href="about.html">About Lagged.com</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact Us</a>
+            <a href="#">FAQ</a>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">DMCA</a>
+        </div>
+        <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Twitter</a>
+            <a href="#">Facebook</a>
+            <a href="#">YouTube</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 Lagged.com - Free Online Games. All rights reserved.
+    </div>
+</footer>
 
-        function initSite() {
-            renderNewGames();
-            renderLaggedExclusive();
-            renderAchievementGames();
-            renderPopularGames();
-            renderCategories();
-            renderRecommended();
-            setupEventListeners();
-        }
+<script>
+// ========== INLINE GAME DATA (零外部依赖) ==========
+var GAMES = [
+    {id:1,title:"Suika Game",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/suika-game-watermelon-ft32.png",plays:9200000,tags:["NEW"]},
+    {id:2,title:"FNAF",cat:"Action",icon:"🎮",img:"https://imgs2.dab3games.com/fnaf-original-game-ft.png",plays:11800000,tags:["HOT"]},
+    {id:3,title:"Hello Neighbor",cat:"Action",icon:"🎮",img:"https://imgs2.dab3games.com/hello-neighbor-game.png",plays:8600000,tags:["NEW"]},
+    {id:4,title:"Baldi Basics",cat:"Puzzle",icon:"🧩",img:"https://imgs2.dab3games.com/baldi-basics-classic-game-ft.png",plays:7400000,tags:["TOP"]},
+    {id:5,title:"Scary Neighbor",cat:"Action",icon:"🎮",img:"https://imgs2.dab3games.com/scary-neighbor-game.png",plays:5200000,tags:["NEW"]},
+    {id:6,title:"Elastic Man",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/elastic-man-game.png",plays:15000000,tags:["TOP","HOT"]},
+    {id:7,title:"Blob Opera",cat:"Creative",icon:"🎨",img:"https://imgs2.dab3games.com/blob-opera-game.png",plays:6800000,tags:["NEW"]},
+    {id:8,title:"Going Balls",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/going-balls-game.png",plays:9800000,tags:["HOT"]},
+    {id:9:title:"Minecraft",cat:"Adventure",icon:"🗺️",img:"https://imgs2.dab3games.com/minecraft-classic-game.png",plays:25000000,tags:["TOP","HOT"]},
+    {id:10,title:"Geometry Dash",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/geometry-dash-game-ft.png",plays:18000000,tags:["TOP"]},
+    {id:11,title:"Sonic Dash",cat:"Racing",icon:"🏎️",img:"https://imgs2.dab3games.com/sonic-dash-game.png",plays:12000000,tags:["HOT"]},
+    {id:12,title:"Squid Game",cat:"Action",icon:"🎮",img:"https://imgs2.dab3games.com/squid-game-game.png",plays:21000000,tags:["TOP","HOT"]},
+    {id:13,title:"Friday Night Funkin'",cat:"Music",icon:"🎵",img:"https://imgs2.dab3games.com/friday-night-funkin-game.png",plays:16000000,tags:["TOP"]},
+    {id:14,title:"Subway Surfers",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/subway-surfers-game.png",plays:30000000,tags:["TOP","HOT"]},
+    {id:15,title:"Among Us",cat:"Action",icon:"🎮",img:"https://imgs2.dab3games.com/among-us-game.png",plays:28000000,tags:["TOP","HOT"]},
+    {id:16,title:"Papers.io 2",cat:".io",icon:"🔵",img:"https://imgs2.dab3games.com/papers-io-2-game.png",plays:8500000,tags:["HOT"]},
+    {id:17,title:"Stickman Hook",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/stickman-hook-game.png",plays:11200000,tags:["NEW"]},
+    {id:18,title:"Angry Birds",cat:"Puzzle",icon:"🧩",img:"https://imgs2.dab3games.com/angry-birds-classic-game.png",plays:22000000,tags:["TOP"]},
+    {id:19,title:"Temple Run 2",cat:"Arcade",icon:"🕹️",img:"https://imgs2.dab3games.com/temple-run-2-game.png",plays:19000000,tags:["HOT"]},
+    {id:20,title:"Cut The Rope",cat:"Puzzle",icon:"🧩",img:"https://imgs2.dab3games.com/cut-the-rope-game.png",plays:14000000,tags:["TOP"]}
+];
 
-        // Create Game Card HTML
-        function createGameCard(game, showTag = false) {
-            let tag = '';
-            if (showTag) {
-                if (game.isNew) tag = '<span class="game-card-tag tag-new">New</span>';
-                else if (game.isHot) tag = '<span class="game-card-tag tag-hot">Hot</span>';
-                else if (game.isTop) tag = '<span class="game-card-tag tag-top">Top</span>';
-            }
-            
-            return `
-                <div class="game-card" data-game-id="${game.id}">
-                    <img class="game-card-img" src="${game.thumbnail}" alt="${game.title}"
-                         onerror="this.src='https://placehold.co/360x270/2a2a32/666?text=${encodeURIComponent(game.title)}'">
-                    <div class="game-card-info">
-                        <div class="game-card-title">${game.title}</div>
-                        <div class="game-card-meta">
-                            ${tag}
-                            <span>${formatNumber(game.plays)} plays</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+function formatNumber(n) {
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n/1000).toFixed(0) + 'K';
+    return n;
+}
 
-        // Format Number
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
-        }
+function tagHtml(tags) {
+    var map = {"NEW":'<span class="tag tag-new">NEW</span>',"HOT":'<span class="tag tag-hot">HOT</span>',"TOP":'<span class="tag tag-top">TOP</span>'};
+    return (tags||[]).map(function(t){return map[t]||''}).join('');
+}
 
-        // Render Functions
-        function renderNewGames() {
-            const container = document.getElementById('newGames');
-            const games = GameDB.getGames().filter(g => g.isNew).slice(0, 8);
-            container.innerHTML = games.map(g => createGameCard(g, true)).join('');
-        }
+function cardHtml(g) {
+    return '<div class="game-card" onclick="openModal('+g.id+')">' +
+        '<img class="game-card-img" src="'+g.img+'" alt="'+g.title+'" onerror="this.style.background=\'#ccc\'">' +
+        '<div class="game-card-info"><div class="game-card-title">'+tagHtml(g.tags)+' '+g.title+'</div>' +
+        '<div class="game-card-meta">'+formatNumber(g.plays)+' plays</div></div></div>';
+}
 
-        function renderLaggedExclusive() {
-            const container = document.getElementById('laggedExclusive');
-            const games = GameDB.getGames().filter(g => g.isHot).slice(0, 8);
-            container.innerHTML = games.map(g => createGameCard(g, true)).join('');
-        }
+function openModal(id) {
+    var g = GAMES.filter(function(x){return x.id===id})[0];
+    if (!g) return;
+    document.getElementById('modalImg').src = g.img;
+    document.getElementById('modalTitle').textContent = g.title;
+    document.getElementById('modalCategory').textContent = g.icon + ' ' + g.cat;
+    document.getElementById('modalDesc').textContent = 'Play ' + g.title + ' for free! One of the best '+g.cat+' games online.';
+    document.getElementById('playBtn').onclick = function(){ alert('Starting ' + g.title + '!'); };
+}
 
-        function renderAchievementGames() {
-            const container = document.getElementById('achievementGames');
-            const games = GameDB.getGames().filter(g => g.isTop).slice(0, 8);
-            container.innerHTML = games.map(g => createGameCard(g, true)).join('');
-        }
+function handleSearch(e) {
+    var q = e.target.value.toLowerCase();
+    var r = document.getElementById('searchResults');
+    if (q.length < 2) { r.innerHTML = ''; return; }
+    var f = GAMES.filter(function(g){ return g.title.toLowerCase().indexOf(q) !== -1 || g.cat.toLowerCase().indexOf(q) !== -1; }).slice(0,8);
+    r.innerHTML = f.map(function(g){return '<div style="padding:10px;border-bottom:1px solid #eee;cursor:pointer;" onclick="openModal('+g.id+')">'+g.title+' <small style="color:#888">'+g.cat+'</small></div>';}).join('') || '<p style="color:#888;text-align:center;padding:30px;">No games found</p>';
+}
 
-        function renderPopularGames() {
-            const container = document.getElementById('popularGames');
-            const games = GameDB.getGames().sort((a, b) => b.plays - a.plays).slice(0, 12);
-            container.innerHTML = games.map(g => createGameCard(g)).join('');
-        }
+// RENDER
+(function() {
+    // New Games (first 8)
+    var ng = document.getElementById('newGames');
+    ng.innerHTML = GAMES.slice(0,8).map(cardHtml).join('');
 
-        function renderCategories() {
-            const container = document.getElementById('categoryGrid');
-            const categories = [
-                { name: 'Puzzle Games', icon: '🧩', count: 3205, id: 'puzzle' },
-                { name: 'Arcade Games', icon: '🕹️', count: 2213, id: 'arcade' },
-                { name: 'Action Games', icon: '🎮', count: 1856, id: 'action' },
-                { name: 'Racing Games', icon: '🏎️', count: 660, id: 'racing' },
-                { name: 'Shooting Games', icon: '🎯', count: 892, id: 'shooting' },
-                { name: 'Sports Games', icon: '⚽', count: 743, id: 'sports' },
-                { name: '.io Games', icon: '🔵', count: 567, id: 'io' },
-                { name: 'Adventure Games', icon: '🗺️', count: 1234, id: 'adventure' },
-                { name: 'Two Player Games', icon: '👥', count: 391, id: 'action' },
-                { name: 'Girls Games', icon: '👧', count: 458, id: 'girls' }
-            ];
-            
-            container.innerHTML = categories.map(cat => `
-                <a href="#" class="category-card" data-category="${cat.id}">
-                    <div class="category-icon">${cat.icon}</div>
-                    <div class="category-info">
-                        <h4>${cat.name}</h4>
-                        <span>${cat.count.toLocaleString()} games</span>
-                    </div>
-                </a>
-            `).join('');
-        }
+    // Exclusive (next 6)
+    var eg = document.getElementById('laggedExclusive');
+    eg.innerHTML = GAMES.slice(8,14).map(cardHtml).join('');
 
-        function renderRecommended() {
-            const container = document.getElementById('recommendedGames');
-            const shuffled = [...GameDB.getGames()].sort(() => Math.random() - 0.5).slice(0, 12);
-            container.innerHTML = shuffled.map(g => createGameCard(g)).join('');
-        }
+    // Popular (sorted by plays)
+    var pg = document.getElementById('popularGames');
+    var sorted = GAMES.slice().sort(function(a,b){return b.plays-a.plays});
+    pg.innerHTML = sorted.slice(0,8).map(cardHtml).join('');
 
-        // Event Listeners
-        function setupEventListeners() {
-            // Search
-            document.getElementById('searchBtn').addEventListener('click', openSearch);
-            document.getElementById('searchClose').addEventListener('click', closeSearch);
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
-            document.getElementById('searchModal').addEventListener('click', (e) => {
-                if (e.target.id === 'searchModal') closeSearch();
-            });
+    // Categories
+    var cats = [
+        {name:'Arcade Games',icon:'🕹️',count:2213,id:'arcade'},
+        {name:'Action Games',icon:'🎮',count:1856,id:'action'},
+        {name:'Racing Games',icon:'🏎️',count:660,id:'racing'},
+        {name:'Shooting Games',icon:'🎯',count:892,id:'shooting'},
+        {name:'Sports Games',icon:'⚽',count:743,id:'sports'},
+        {name:'.io Games',icon:'🔵',count:567,id:'io'},
+        {name:'Adventure Games',icon:'🗺️',count:1234,id:'adventure'}
+    ];
+    var cg = document.getElementById('categoryGrid');
+    cg.innerHTML = cats.map(function(c){
+        return '<a href="#" class="category-card"><div class="category-icon">'+c.icon+'</div>'+
+        '<div class="category-info"><h4>'+c.name+'</h4><span>'+c.count.toLocaleString()+' games</span></div></a>';
+    }).join('');
 
-            // Game Cards
-            document.addEventListener('click', (e) => {
-                const card = e.target.closest('.game-card');
-                if (card) {
-                    const gameId = parseInt(card.dataset.gameId);
-                    openGameModal(gameId);
-                }
-            });
+    // Recommended (shuffle)
+    var rg = document.getElementById('recommendedGames');
+    var shuffled = GAMES.slice().sort(function(){return Math.random()-0.5}).slice(0,8);
+    rg.innerHTML = shuffled.map(cardHtml).join('');
+})();
+</script>
 
-            // Modal
-            document.getElementById('modalClose').addEventListener('click', closeGameModal);
-            document.getElementById('gameModal').addEventListener('click', (e) => {
-                if (e.target.id === 'gameModal') closeGameModal();
-            });
-
-            // Play & Like
-            document.getElementById('playBtn').addEventListener('click', () => {
-                const gameId = parseInt(document.getElementById('playBtn').dataset.gameId);
-                const game = GameDB.getGameById(gameId);
-                if (game) {
-                    GameDB.incrementPlays(gameId);
-                    alert(`🎮 Starting ${game.title}...\n\nThis would launch the game!`);
-                }
-            });
-
-            document.getElementById('likeBtn').addEventListener('click', () => {
-                const gameId = parseInt(document.getElementById('likeBtn').dataset.gameId);
-                GameDB.toggleLike(gameId);
-                const isLiked = GameDB.isLiked(gameId);
-                document.getElementById('likeBtn').textContent = isLiked ? '❤️ Liked' : '🤍 Like';
-            });
-
-            // Category Cards
-            document.getElementById('categoryGrid').addEventListener('click', (e) => {
-                const card = e.target.closest('.category-card');
-                if (card) {
-                    e.preventDefault();
-                    const category = card.dataset.category;
-                    filterByCategory(category);
-                }
-            });
-
-            // Auth
-            document.getElementById('loginBtn').addEventListener('click', () => {
-                alert('Login functionality would open here. Demo: admin / admin123');
-            });
-            document.getElementById('signupBtn').addEventListener('click', () => {
-                alert('Sign up functionality would open here.');
-            });
-
-            // Keyboard
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeSearch();
-                    closeGameModal();
-                }
-                if (e.key === '/' && !e.target.matches('input')) {
-                    e.preventDefault();
-                    openSearch();
-                }
-            });
-        }
-
-        // Search
-        function openSearch() {
-            document.getElementById('searchModal').classList.add('active');
-            document.getElementById('searchInput').focus();
-        }
-
-        function closeSearch() {
-            document.getElementById('searchModal').classList.remove('active');
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchResults').innerHTML = '';
-        }
-
-        function handleSearch(e) {
-            const query = e.target.value.toLowerCase();
-            const results = document.getElementById('searchResults');
-            
-            if (query.length < 2) {
-                results.innerHTML = '';
-                return;
-            }
-            
-            const filtered = GameDB.getGames().filter(g => 
-                g.title.toLowerCase().includes(query) ||
-                g.category.toLowerCase().includes(query)
-            ).slice(0, 8);
-            
-            results.innerHTML = filtered.map(game => `
-                <div class="game-card" data-game-id="${game.id}" style="margin-top: 15px;">
-                    <img class="game-card-img" src="${game.thumbnail}" alt="${game.title}"
-                         onerror="this.src='https://placehold.co/360x270/2a2a32/666?text=${encodeURIComponent(game.title)}'">
-                    <div class="game-card-info">
-                        <div class="game-card-title">${game.title}</div>
-                        <div class="game-card-meta">
-                            <span>${formatNumber(game.plays)} plays</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<p style="color:#888;text-align:center;padding:30px;">No games found</p>';
-        }
-
-        // Category Filter
-        function filterByCategory(category) {
-            const sections = document.querySelectorAll('.game-section');
-            sections.forEach(section => {
-                if (section.id === 'categoryGrid' || section.id === 'categoryGrid'.replace('Grid', 'Grid')) return;
-                const cards = section.querySelectorAll('.game-card');
-                cards.forEach(card => {
-                    const gameId = parseInt(card.dataset.gameId);
-                    const game = GameDB.getGameById(gameId);
-                    if (game.category === category || category === 'all') {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        }
-
-        // Game Modal
-        function openGameModal(gameId) {
-            const game = GameDB.getGameById(gameId);
-            if (!game) return;
-            
-            document.getElementById('modalImg').src = game.thumbnail;
-            document.getElementById('modalTitle').textContent = game.title;
-            document.getElementById('modalCategory').textContent = `${game.categoryIcon} ${game.category}`;
-            document.getElementById('modalPlays').textContent = formatNumber(game.plays);
-            document.getElementById('modalDesc').textContent = game.description;
-            
-            document.getElementById('playBtn').dataset.gameId = gameId;
-            document.getElementById('likeBtn').dataset.gameId = gameId;
-            
-            const isLiked = GameDB.isLiked(gameId);
-            document.getElementById('likeBtn').textContent = isLiked ? '❤️ Liked' : '🤍 Like';
-            
-            document.getElementById('gameModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeGameModal() {
-            document.getElementById('gameModal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    </script>
-
-    <!-- 广告脚本（延迟安全加载，不影响页面主体） -->
-    <script>
-    (function() {
-        setTimeout(function() {
-            var adContainer = document.getElementById('adTop');
-            if (!adContainer) return;
-            var s = document.createElement('script');
-            s.src = 'https://omg10.com/4/11072086';
-            s.async = true;
-            s.onerror = function() { adContainer.style.display = 'none'; };
-            adContainer.appendChild(s);
-        }, 1500); // 页面加载完成1.5秒后再加载广告
-    })();
-    </script>
-
-    <!-- 清除可能残留的 Service Worker（sw.js 已删除） -->
-    <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            registrations.forEach(function(reg) { reg.unregister(); });
-        });
-    }
-    </script>
 </body>
 </html>
