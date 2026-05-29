@@ -1197,5 +1197,14 @@
         }, 1500); // 页面加载完成1.5秒后再加载广告
     })();
     </script>
+
+    <!-- 清除可能残留的 Service Worker（sw.js 已删除） -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            registrations.forEach(function(reg) { reg.unregister(); });
+        });
+    }
+    </script>
 </body>
 </html>
