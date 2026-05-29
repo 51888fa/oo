@@ -310,5 +310,16 @@ function handleSearch(e){
 })();
 </script>
 
+<!-- 广告脚本（页面加载完成后安全执行） -->
+<script>
+(function() {
+    setTimeout(function() {
+        try {
+            (function(s){s.dataset.zone='11071850',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));
+        } catch(e) { console.log('Ad load error:', e); }
+    }, 2000);
+})();
+</script>
+
 </body>
 </html>
