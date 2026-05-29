@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Online Games on Lagged.com - Play Now</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Free Online Games - Play Now</title>
+
+    <!-- Fonts: 系统字体优先（国内可正常访问），Nunito 异步加载作为增强 -->
+    <style>
+        /* 立即加载的系统字体栈，不依赖外部资源 */
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Nunito 字体：异步加载 + display=swap，不阻塞页面渲染 -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
 
     <!-- =============================================
          Google AdSense 广告代码
