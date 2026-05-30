@@ -85,6 +85,124 @@
         .btn-play { background: linear-gradient(135deg,#ff6b35,#f7931e); color: #fff; }
         .btn-like { background: #f4f6fb; color: #555; }
 
+        /* Floating Ad Button */
+        .ad-float-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 22px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(255,107,53,0.45);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: adPulse 2.5s ease-in-out infinite;
+            transition: transform 0.15s;
+        }
+        .ad-float-btn:hover { transform: scale(1.07); }
+        .ad-float-btn .ad-close {
+            margin-left: 6px;
+            opacity: 0.7;
+            font-size: 13px;
+            line-height: 1;
+            padding: 0 2px;
+        }
+        .ad-float-btn .ad-close:hover { opacity: 1; }
+        @keyframes adPulse {
+            0%,100% { box-shadow: 0 6px 24px rgba(255,107,53,0.45); }
+            50% { box-shadow: 0 8px 32px rgba(255,107,53,0.75); transform: translateY(-2px); }
+        }
+
+        /* Ad Overlay (插屏广告遮罩) */
+        .ad-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.25s ease;
+        }
+        .ad-overlay.active { display: flex; }
+        .ad-overlay-box {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 92%;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        .ad-overlay-header {
+            background: linear-gradient(135deg,#ff6b35,#f7931e);
+            padding: 18px 24px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .ad-overlay-header h3 { color: #fff; font-size: 17px; font-weight: 900; }
+        .ad-overlay-close {
+            background: rgba(255,255,255,0.25);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ad-overlay-body {
+            padding: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        .ad-overlay-banner { width: 100%; min-height: 120px; background: #f4f6fb; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 13px; overflow: hidden; }
+        .ad-overlay-cta {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg,#ff6b35,#f7931e);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .ad-overlay-cta:hover { transform: scale(1.03); }
+
+        /* Top Ad Banner (真实广告容器) */
+        .ad-banner-top {
+            background: #fff;
+            border-radius: 12px;
+            padding: 8px;
+            text-align: center;
+            margin-bottom: 24px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
         /* Footer */
         .footer { background: #1a1a2e; color: #aaa; padding: 48px 20px 30px; margin-top: 50px; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px; }
@@ -122,8 +240,10 @@
 <!-- Main -->
 <main class="main">
 
-    <!-- 广告位 -->
-    <div class="ad-banner">Advertisement Space — 728x90</div>
+    <!-- 顶部广告横幅 (nap5k banner) -->
+    <div class="ad-banner-top">
+        <div id="adBannerSlot" style="width:100%;text-align:center;"></div>
+    </div>
 
     <!-- New Games -->
     <section class="game-section">
@@ -182,6 +302,28 @@
                 <button class="modal-btn btn-play" id="playBtn">▶ Play Now</button>
                 <button class="modal-btn btn-like" id="likeBtn">🤍 Like</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- 悬浮广告按钮 -->
+<button class="ad-float-btn" id="adFloatBtn" onclick="showAdOverlay()">
+    🎁 <span>Win a Prize!</span>
+    <span class="ad-close" onclick="event.stopPropagation();document.getElementById('adFloatBtn').style.display='none'" title="Close">✕</span>
+</button>
+
+<!-- 插屏广告弹窗 -->
+<div class="ad-overlay" id="adOverlay" onclick="if(event.target===this)closeAdOverlay()">
+    <div class="ad-overlay-box" onclick="event.stopPropagation()">
+        <div class="ad-overlay-header">
+            <h3>🎮 Special Offer for Gamers!</h3>
+            <button class="ad-overlay-close" onclick="closeAdOverlay()">✕</button>
+        </div>
+        <div class="ad-overlay-body">
+            <div class="ad-overlay-banner" id="adOverlayContent">
+                <span>Loading offer...</span>
+            </div>
+            <button class="ad-overlay-cta" onclick="claimOffer()">🎯 Claim Offer Now</button>
         </div>
     </div>
 </div>
@@ -310,21 +452,69 @@ function handleSearch(e){
 })();
 </script>
 
-<!-- 广告脚本（页面加载完成后安全执行） -->
+<!-- 广告脚本（立即加载，不延迟） -->
 <script>
-(function() {
-    setTimeout(function() {
-        try {
-            (function(s){s.dataset.zone='11071850',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));
-        } catch(e) { console.log('Ad load error:', e); }
-        try {
-            var q = document.createElement('script'); q.src = 'https://quge5.com/88/tag.min.js'; q.async = true; q.dataset.zone = '244078'; q.dataset.cfasync = 'false'; document.body.appendChild(q);
-        } catch(e) { console.log('Quge5 ad error:', e); }
-        try {
-            (function(s){s.dataset.zone='11073066',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));
-        } catch(e) { console.log('N6wxm ad error:', e); }
-    }, 2000);
-})();
+/* ====== 广告管理 ====== */
+var _adLoaded = false;
+
+function loadAds() {
+    if (_adLoaded) return;
+    _adLoaded = true;
+    // nap5k banner (zone 11071850) - 顶部横幅
+    try {
+        var s1 = document.createElement('script');
+        s1.dataset.zone = '11071850';
+        s1.src = 'https://nap5k.com/tag.min.js';
+        s1.async = true;
+        document.getElementById('adBannerSlot').appendChild(s1);
+    } catch(e) {}
+    // quge5 (zone 244078)
+    try {
+        var s2 = document.createElement('script');
+        s2.src = 'https://quge5.com/88/tag.min.js';
+        s2.async = true;
+        s2.dataset.zone = '244078';
+        s2.dataset.cfasync = 'false';
+        document.body.appendChild(s2);
+    } catch(e) {}
+    // n6wxm vignette / interstitial (zone 11073066)
+    try {
+        var s3 = document.createElement('script');
+        s3.dataset.zone = '11073066';
+        s3.src = 'https://n6wxm.com/vignette.min.js';
+        s3.async = true;
+        document.body.appendChild(s3);
+    } catch(e) {}
+}
+
+// 页面加载完后 1 秒自动加载广告
+window.addEventListener('load', function() {
+    setTimeout(loadAds, 1000);
+});
+
+/* ====== 悬浮按钮 / 插屏广告逻辑 ====== */
+function showAdOverlay() {
+    // 先确保广告脚本已加载
+    loadAds();
+    document.getElementById('adOverlay').classList.add('active');
+    // 尝试触发 n6wxm vignette
+    try {
+        if (typeof window.__vignette !== 'undefined') {
+            window.__vignette.show();
+        }
+    } catch(e) {}
+}
+
+function closeAdOverlay() {
+    document.getElementById('adOverlay').classList.remove('active');
+}
+
+function claimOffer() {
+    closeAdOverlay();
+    // 触发一次广告点击（open 新标签，吸引用户）
+    // 实际广告网络会在 vignette 触发后自动展示
+    loadAds();
+}
 </script>
 
 <!-- Infolinks -->
